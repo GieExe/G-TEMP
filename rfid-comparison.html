@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Reader Comparison Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Tech -->
+    <!-- Application Structure Plan: The application is structured in two main, logical sections to guide the user. First, a 'Benchmark' section introduces the high-performance Impinj Speedway R700, establishing its features and quality. This serves as a reference point. Second, an 'Alternatives Explorer' section provides an interactive dashboard for comparison. This structure directly addresses the user's goal: understanding a specific product and finding cheaper alternatives. The user flow is simple: learn about the premium option, then interactively compare it to budget-friendly ones. The core interaction involves a dropdown to change the comparison metric on a chart and a table that highlights corresponding data, making it easy to analyze price-performance trade-offs. -->
+    <!-- Visualization & Content Choices: 
+        1. R700 Features -> Goal: Inform -> Viz/Presentation: Feature cards using HTML/Tailwind with icons -> Interaction: Static display -> Justification: Provides a quick, scannable summary of the product's key selling points as described in the source text.
+        2. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js on Canvas) paired with an interactive data table (HTML/JS) -> Interaction: A dropdown menu filters the chart by metric (Price, Read Rate, Range). Clicking a row in the table highlights the product in the chart. -> Justification: This interactive combination is highly effective. The bar chart offers an immediate visual comparison of a selected metric, while the table provides comprehensive data. The interactivity allows the user to actively explore the data, directly comparing the benchmark product against alternatives on the criteria they care about most, fulfilling the core request.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #4a4a4a;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+        .table-row-highlight {
+            background-color: #e6f3ff !important;
+            --tw-ring-color: #3b82f6;
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            ring-width: 2px;
+            ring-color: var(--tw-ring-color);
+            ring-offset-width: 2px;
+        }
+        .table-row-highlight td {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800">C#/.NET Compatible RFID Reader Analysis</h1>
+            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs</p>
+        </header>
+
+        <main>
+            <section id="benchmark" class="bg-white rounded-xl shadow-md p-8 mb-12">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">The Benchmark: Impinj Speedway R700</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">This section provides an overview of the Impinj Speedway R700, a high-performance fixed reader chosen for its reliability and excellent .NET SDK. Understanding its capabilities is key to evaluating other alternatives effectively.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-4">📡</span>
+                            <h3 class="text-xl font-semibold text-gray-700">Highest Interference Rejection</h3>
+                        </div>
+                        <p class="text-gray-600">Ensures accurate tag reads even in dense radio-frequency environments with nearby metal objects or other electronics, preventing data loss.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <div class="flex items-center mb-3">
+                            <span class="text-3xl mr-4">🎯</span>
+                             <h3 class="text-xl font-semibold text-gray-700">Best-in-Class Sensitivity</h3>
+                        </div>
+                        <p class="text-gray-600">Capable of detecting and reading the most difficult-to-read tags from a distance, which eliminates missed scans and improves system efficiency.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="alternatives" class="bg-white rounded-xl shadow-md p-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">C#-Compatible Alternatives Explorer</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">The following readers are known to provide Software Development Kits (SDKs) or APIs compatible with C#/.NET. Use the tools below to compare these options. Click a product in the table to highlight it in the chart.</p>
+                </div>
+                
+                <div class="flex justify-center items-center mb-6 space-x-4">
+                    <label for="metricSelector" class="font-semibold text-gray-700">Compare by:</label>
+                    <select id="metricSelector" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option value="priceValue" selected>Price (PHP)</option>
+                        <option value="readRate">Read Rate (tags/sec)</option>
+                        <option value="readRange">Read Range (m)</option>
+                    </select>
+                </div>
+
+                <div class="chart-container mb-10">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200" id="productsTable">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PHP)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Rate (tags/sec)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Range (m)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">.NET SDK Support</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        
+    </div>
+
+    <script>
+        const productData = [
+            { id: 0, name: 'Impinj Speedway R700', priceDisplay: 'Quote-Based', priceValue: 160000, readRate: 1100, readRange: 10, sdkSupport: 'Excellent', bestFor: 'Mission-critical apps with top-tier support.' },
+            { id: 1, name: 'Zebra FX9600 (4-port)', priceDisplay: '₱71,100 – ₱98,800', priceValue: 84950, readRate: 1000, readRange: 9, sdkSupport: 'Excellent', bestFor: 'High-volume industrial and logistics apps.' },
+            { id: 2, name: 'Alien ALR-F800-X', priceDisplay: '₱75,800 – ₱105,100', priceValue: 90450, readRate: 950, readRange: 9, sdkSupport: 'Very Good', bestFor: 'Enterprise-grade asset tracking and supply chain.' },
+            { id: 3, name: 'CAEN Proton R4320P', priceDisplay: '~₱96,700', priceValue: 96700, readRate: 800, readRange: 8, sdkSupport: 'Very Good', bestFor: 'Advanced applications requiring dense reader mode.' },
+            { id: 4, name: 'CAEN Quattro R4321P', priceDisplay: '₱59,000 – ₱84,100', priceValue: 71550, readRate: 700, readRange: 7, sdkSupport: 'Very Good', bestFor: 'Cost-effective high-performance portals.' },
+            { id: 5, name: 'ThingMagic IZAR', priceDisplay: '~₱96,300', priceValue: 96300, readRate: 750, readRange: 8, sdkSupport: 'Very Good', bestFor: 'Embedded solutions and high-tag environments.' },
+            { id: 6, name: 'Chafon CF-RU6401', priceDisplay: '~₱11,700', priceValue: 11700, readRate: 350, readRange: 7, sdkSupport: 'Good', bestFor: 'Budget-conscious projects needing direct hardware control.' }
+        ];
+
+        let comparisonChart;
+        let currentMetric = 'priceValue';
+        let highlightedIndex = -1;
+
+        const metricConfig = {
+            priceValue: { label: 'Average Price (PHP)', unit: '₱' },
+            readRate: { label: 'Read Rate (tags/sec)', unit: ' tags/sec' },
+            readRange: { label: 'Read Range (m)', unit: ' m' }
+        };
+        
+        const populateTable = () => {
+            const tableBody = document.querySelector('#productsTable tbody');
+            tableBody.innerHTML = '';
+            productData.forEach((product, index) => {
+                const row = document.createElement('tr');
+                row.className = 'cursor-pointer hover:bg-gray-100 transition-colors duration-200';
+                row.dataset.index = index;
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">${product.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.priceDisplay}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.readRate.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.readRange}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 font-medium">${product.sdkSupport}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">${product.bestFor}</td>
+                `;
+                row.addEventListener('click', () => handleRowClick(index));
+                tableBody.appendChild(row);
+            });
+        };
+
+        const createChart = () => {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: '' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        const value = context.parsed.x;
+                                        if (currentMetric === 'priceValue') {
+                                            label += `₱${value.toLocaleString()}`;
+                                        } else {
+                                            label += `${value}${metricConfig[currentMetric].unit}`;
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        const updateChart = () => {
+            if (!comparisonChart) return;
+            
+            const config = metricConfig[currentMetric];
+            const data = productData.map(p => p[currentMetric]);
+            const labels = productData.map(p => {
+                const parts = p.name.split(' ');
+                return parts.length > 3 ? parts.slice(0, 3).join(' ') + '...' : p.name;
+            });
+            
+            const baseColor = 'rgba(75, 192, 192, 0.6)';
+            const highlightColor = 'rgba(255, 99, 132, 0.8)';
+            const baseBorderColor = 'rgba(75, 192, 192, 1)';
+            const highlightBorderColor = 'rgba(255, 99, 132, 1)';
+            
+            comparisonChart.data.labels = labels;
+            comparisonChart.data.datasets[0].data = data;
+            comparisonChart.data.datasets[0].label = config.label;
+            comparisonChart.options.scales.x.title.text = config.label;
+            
+            comparisonChart.data.datasets[0].backgroundColor = labels.map((_, index) => 
+                index === highlightedIndex ? highlightColor : baseColor
+            );
+            comparisonChart.data.datasets[0].borderColor = labels.map((_, index) => 
+                index === highlightedIndex ? highlightBorderColor : baseBorderColor
+            );
+
+            comparisonChart.update();
+        };
+
+        const handleRowClick = (index) => {
+            document.querySelectorAll('#productsTable tbody tr').forEach(row => {
+                row.classList.remove('table-row-highlight');
+            });
+
+            if (highlightedIndex === index) {
+                highlightedIndex = -1; 
+            } else {
+                highlightedIndex = index;
+                const selectedRow = document.querySelector(`tr[data-index='${index}']`);
+                if (selectedRow) {
+                    selectedRow.classList.add('table-row-highlight');
+                }
+            }
+            updateChart();
+        };
+        
+        document.getElementById('metricSelector').addEventListener('change', (e) => {
+            currentMetric = e.target.value;
+            updateChart();
+        });
+
+        window.onload = () => {
+            populateTable();
+            createChart();
+            updateChart();
+        };
+    </script>
+
+</body>
+</html>
