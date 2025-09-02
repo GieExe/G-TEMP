@@ -10,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application presents information in a top-down format. It begins with a 'Benchmark' product, followed by a 'Top Choice' and 'Second Choice' section to provide clear recommendations. An 'Interactive Comparison' chart, a 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a performance benchmark to direct recommendations, then provides tools for their own exploration. -->
+    <!-- Application Structure Plan: The application leads with a 'Project Starter Bundles' section, providing immediate, actionable cost estimates. This is followed by 'Top Choice' and 'Second Choice' recommendations for readers. A 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a complete system cost to individual component analysis. -->
     <!-- Visualization & Content Choices: 
-        1. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
-        2. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
-        3. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
-        4. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
+        1. Starter Bundles -> Goal: Provide total cost estimate -> Viz/Presentation: Two side-by-side cards with itemized lists and total price (HTML/Tailwind).
+        2. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
+        3. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
+        4. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
+        5. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -57,28 +58,61 @@
         </header>
 
         <main>
-             <section id="top-choice" class="bg-indigo-50 rounded-xl shadow-md p-8 mb-12 border-2 border-indigo-200">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-indigo-800 mb-2">Top Choice for Value & Flexibility</h2>
-                    <p class="text-2xl font-semibold text-gray-800">WYUAN UHF RFID Reader (Impinj E710)</p>
-                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">With its unbeatable price for an Impinj E710-powered device and flexible multi-port options (4, 8, or 16), the WYUAN reader is the top choice. It provides elite performance and scalability for demanding projects, making it the best starting point for any new C#/.NET RFID application.</p>
+            <section id="starter-bundles" class="mb-12">
+                <div class="text-center mb-8">
+                     <h2 class="text-3xl font-bold text-gray-800">Project Starter Bundles</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Get a complete, high-performance system by bundling a top-choice reader with essential peripherals. Prices are estimates for a single read-point setup.</p>
                 </div>
-            </section>
-            
-            <section id="second-choice" class="bg-teal-50 rounded-xl shadow-md p-8 mb-12 border-2 border-teal-200">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-teal-800 mb-2">Second Choice: Proven Performer</h2>
-                    <p class="text-2xl font-semibold text-gray-800">CHAFON CF-H815 (Impinj E710)</p>
-                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">The CHAFON CF-H815 is an excellent alternative, offering nearly identical performance with its Impinj E710 chip. It's a proven and highly cost-effective reader, ideal for projects that require high-speed scanning on a tight budget. It remains one of the best value propositions on the market.</p>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <!-- Bundle 1: Top Choice -->
+                    <div class="bg-indigo-50 rounded-xl shadow-lg p-6 border-2 border-indigo-200">
+                        <h3 class="text-2xl font-bold text-indigo-800 text-center mb-4">Top Choice Bundle</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex justify-between"><span>CHAFON CF-H815 (E710)</span> <span class="font-semibold">~ ₱10,260</span></li>
+                            <li class="flex justify-between"><span>9dBi UHF Antenna</span> <span class="font-semibold">~ ₱1,900</span></li>
+                            <li class="flex justify-between"><span>LMR-240 Cable (3m)</span> <span class="font-semibold">~ ₱1,160</span></li>
+                            <li class="flex justify-between"><span>TSC TE244 + RFID Module</span> <span class="font-semibold">~ ₱29,000</span></li>
+                        </ul>
+                        <div class="border-t-2 border-indigo-200 my-4"></div>
+                        <div class="flex justify-between items-center text-xl font-bold text-indigo-800">
+                            <span>Estimated Total:</span>
+                            <span>~ ₱42,320</span>
+                        </div>
+                    </div>
+                    <!-- Bundle 2: Second Choice -->
+                    <div class="bg-teal-50 rounded-xl shadow-lg p-6 border-2 border-teal-200">
+                         <h3 class="text-2xl font-bold text-teal-800 text-center mb-4">Second Choice Bundle</h3>
+                        <ul class="space-y-2 text-gray-700">
+                           <li class="flex justify-between"><span>WYUAN UHF Reader (E710)</span> <span class="font-semibold">~ ₱10,450</span></li>
+                            <li class="flex justify-between"><span>9dBi UHF Antenna</span> <span class="font-semibold">~ ₱1,900</span></li>
+                            <li class="flex justify-between"><span>LMR-240 Cable (3m)</span> <span class="font-semibold">~ ₱1,160</span></li>
+                            <li class="flex justify-between"><span>TSC TE244 + RFID Module</span> <span class="font-semibold">~ ₱29,000</span></li>
+                        </ul>
+                        <div class="border-t-2 border-teal-200 my-4"></div>
+                        <div class="flex justify-between items-center text-xl font-bold text-teal-800">
+                            <span>Estimated Total:</span>
+                            <span>~ ₱42,510</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-             <section id="benchmark" class="bg-white rounded-xl shadow-md p-8 mb-12">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">The Performance Benchmark</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">The <strong class="font-semibold">Impinj Speedway R700</strong> sets the standard for maximum performance, reliability, and SDK quality. While more expensive than the top choices, it is the go-to reader for mission-critical applications where failure is not an option.</p>
+             <section id="reader-choices" class="mb-12">
+                <div class="text-center mb-8">
+                     <h2 class="text-3xl font-bold text-gray-800">Individual Reader Recommendations</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">While the bundles offer a complete solution, here are the detailed recommendations for the readers themselves.</p>
                 </div>
-            </section>
+
+                <div class="bg-indigo-50 rounded-xl shadow-md p-8 mb-8 border-2 border-indigo-200">
+                    <h3 class="text-2xl font-bold text-indigo-800 mb-2">Top Choice: CHAFON CF-H815 (Impinj E710)</h3>
+                    <p class="text-gray-600">For developers building a C#/.NET application, the CHAFON CF-H815 is a proven performer that offers an unparalleled combination of price and high-end performance. It utilizes the powerful Impinj E710 chip to deliver elite read rates (900 tags/sec) for a fraction of the cost of premium-branded readers. This makes it the ideal choice for high-performance projects on a budget.</p>
+                </div>
+
+                <div class="bg-teal-50 rounded-xl shadow-md p-8 mb-8 border-2 border-teal-200">
+                    <h3 class="text-2xl font-bold text-teal-800 mb-2">Second Choice: WYUAN UHF Reader (Impinj E710)</h3>
+                    <p class="text-gray-600">The WYUAN reader is an excellent alternative, offering nearly identical performance with its Impinj E710 chip. Its key advantage is the availability of multi-port options (4, 8, or 16), making it a highly flexible and cost-effective solution for projects that may need to scale up the number of antennas.</p>
+                </div>
+             </section>
             
             <section id="comparison" class="bg-white rounded-xl shadow-md p-8 mb-12">
                 <div class="text-center">
@@ -102,7 +136,7 @@
 
             <section id="product-details">
                 <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">Product Summary & Profiles</h2>
+                     <h2 class="text-3xl font-bold text-gray-800">Product Summary & Detailed Profiles</h2>
                      <p class="max-w-3xl mx-auto text-gray-600 mt-2">Use this summary table for a quick comparison, or scroll down for full details on each product. Prices may vary based on seller and quantity.</p>
                 </div>
                 
