@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application presents information in a top-down format. It begins with the 'Benchmark' product (Impinj R700) to set a standard. This is followed by an 'Interactive Comparison' chart. A 'Product Summary' table then offers a scannable overview of key metrics. Finally, a 'Detailed Product Profiles' section lists each reader in a card format with all information inline. This layered structure allows users to get a high-level overview, visually compare data, scan for key specs, and then read in-depth details in a seamless, scroll-based flow. -->
+    <!-- Application Structure Plan: The application presents information in a top-down format. It begins with the 'Benchmark' product (Impinj R700), followed by a new 'Top Choice' section that highlights the best value product. An 'Interactive Comparison' chart, a 'Product Summary' table, and finally 'Detailed Product Profiles' follow. This structure guides the user from a performance benchmark to a direct recommendation, then provides the tools for their own detailed exploration. -->
     <!-- Visualization & Content Choices: 
-        1. R700 Features -> Goal: Inform -> Viz/Presentation: Feature cards using HTML/Tailwind. -> Interaction: Static.
+        1. Benchmark/Top Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
         2. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
         3. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
         4. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
@@ -53,14 +53,14 @@
         
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800">C#/.NET Compatible RFID Reader Analysis</h1>
-            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs</p>
+            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs. <br><strong class="font-semibold">All prices updated based on Alibaba.com listings.</strong></p>
         </header>
 
         <main>
             <section id="benchmark" class="bg-white rounded-xl shadow-md p-8 mb-12">
                 <div class="text-center">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">The Benchmark: Impinj Speedway R700</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">This section provides an overview of the Impinj Speedway R700, a high-performance fixed reader chosen for its reliability and excellent .NET SDK. Understanding its capabilities is key to evaluating other alternatives effectively.</p>
+                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">This reader sets the standard for maximum performance. It is chosen for its reliability, excellent .NET SDK, and highly competitive price point when sourced from Alibaba.</p>
                 </div>
                 
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -78,6 +78,14 @@
                         </div>
                         <p class="text-gray-600">Capable of detecting and reading the most difficult-to-read tags from a distance, which eliminates missed scans and improves system efficiency.</p>
                     </div>
+                </div>
+            </section>
+
+            <section id="top-choice" class="bg-indigo-50 rounded-xl shadow-md p-8 mb-12 border-2 border-indigo-200">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-indigo-800 mb-2">Top Choice for Value & Performance</h2>
+                    <p class="text-2xl font-semibold text-gray-800">CHAFON CF-H815 (with Impinj E710)</p>
+                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">For developers building a C#/.NET application, the CHAFON CF-H815 offers an unparalleled combination of price and performance. It utilizes the powerful Impinj E710 chip, delivering near-elite read rates (900 tags/sec) for a fraction of the cost of premium-branded readers. This makes it the ideal choice for high-performance projects on a budget.</p>
                 </div>
             </section>
             
@@ -104,7 +112,7 @@
             <section id="product-details">
                 <div class="text-center mb-8">
                      <h2 class="text-3xl font-bold text-gray-800">Product Summary & Profiles</h2>
-                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Use this summary table for a quick comparison, or scroll down for full details on each product.</p>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Use this summary table for a quick comparison, or scroll down for full details on each product. Prices may vary based on seller and quantity.</p>
                 </div>
                 
                 <div class="overflow-x-auto mb-12 bg-white rounded-xl shadow-md">
@@ -112,7 +120,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PHP)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PHP, Alibaba)</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">.NET SDK</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Rate (tags/sec)</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Range (m)</th>
@@ -134,13 +142,14 @@
             { 
                 id: 0, 
                 name: 'Impinj Speedway R700', 
-                priceDisplay: 'Quote-Based', 
-                priceValue: 160000, 
+                priceDisplay: '₱22,040 – ₱30,160', 
+                priceValue: 26100, 
                 readRate: 1100, 
                 readRange: 10, 
                 sdkSupport: 'Excellent', 
                 imageQuery: 'Impinj Speedway R700 RFID reader',
-                overview: "The R700 is the industry's gold standard for high-performance, fixed UHF RFID readers, designed for mission-critical applications where read accuracy in challenging RF environments is non-negotiable.",
+                imageUrl: 'https://www.cisper.com/public/data/image/article/982/4122/large/impinj-r700-rain-rfid-reader-fcc-gx.jpg?v=325824f65e7a7179fd8f9b7d9eaadb06',
+                overview: "The R700 is the industry's gold standard for high-performance readers. Sourced from Alibaba, its price becomes exceptionally competitive, offering unmatched performance and reliability for mission-critical applications.",
                 specs: [
                     "Max Read Rate: Up to 1,100 tags/second",
                     "Antenna Ports: 4 monostatic ports (RP-TNC)",
@@ -158,12 +167,13 @@
             { 
                 id: 1, 
                 name: 'Zebra FX9600', 
-                priceDisplay: '₱71,100 – ₱98,800', 
-                priceValue: 84950, 
+                priceDisplay: '₱69,600 – ₱87,000', 
+                priceValue: 78300, 
                 readRate: 1000, 
                 readRange: 9, 
                 sdkSupport: 'Excellent', 
                 imageQuery: 'Zebra FX9600 RFID reader',
+                imageUrl: 'https://www.zebra.com/content/dam/zebra_dam/global/zcom-web-production/web-production-photography/web001/fx9600-right-facing-3x2-3600.jpg',
                 overview: "A direct competitor to Impinj, the FX9600 is built with a focus on ruggedness and durability for harsh industrial environments, delivering exceptional performance for high-volume applications.",
                 specs: [
                     "Max Read Rate: ~1,000 tags/second",
@@ -181,12 +191,13 @@
             { 
                 id: 2, 
                 name: 'Alien ALR-F800-X', 
-                priceDisplay: '₱75,800 – ₱105,100', 
-                priceValue: 90450, 
+                priceDisplay: '₱63,800 – ₱81,200', 
+                priceValue: 72500, 
                 readRate: 950, 
                 readRange: 9, 
                 sdkSupport: 'Very Good', 
                 imageQuery: 'Alien ALR-F800-X RFID reader',
+                imageUrl: 'https://www.alientechnology.com/wp-content/uploads/F800-01.jpg',
                 overview: "A powerful, enterprise-grade 4-port reader known for its flexibility and rich feature set, including a Linux-based OS that allows simple applications to run directly on the reader ('autonomous mode').",
                 specs: [
                     "Max Read Rate: ~950 tags/second",
@@ -203,13 +214,14 @@
             { 
                 id: 3, 
                 name: 'CAEN Proton R4320P', 
-                priceDisplay: '~₱96,700', 
+                priceDisplay: '~₱96,700 (Distributor)', 
                 priceValue: 96700, 
                 readRate: 800, 
                 readRange: 8, 
                 sdkSupport: 'Very Good', 
                 imageQuery: 'CAEN Proton RFID reader',
-                overview: "A high-tech, precision-engineered reader from Italy, specifically designed to excel in dense reader environments, minimizing interference when multiple readers operate closely together.",
+                imageUrl: 'https://rfid.it/157-large_default/r4320p-proton-industrial-4-port-rain-rfid-reader.jpg',
+                overview: "A high-tech, precision-engineered reader from Italy, specifically designed to excel in dense reader environments. Not typically sold on Alibaba; price is based on distributor estimates.",
                 specs: [
                     "Max Read Rate: ~800 tags/sec",
                     "Antenna Ports: 4 monostatic ports",
@@ -224,13 +236,14 @@
             { 
                 id: 4, 
                 name: 'CAEN Quattro R4321P', 
-                priceDisplay: '₱59,000 – ₱84,100', 
+                priceDisplay: '₱59k – ₱84k (Distributor)', 
                 priceValue: 71550, 
                 readRate: 700, 
                 readRange: 7, 
                 sdkSupport: 'Very Good',
                 imageQuery: 'CAEN Quattro RFID reader',
-                overview: "A general-purpose and more cost-effective 4-port reader from CAEN that still delivers high performance and solid engineering.",
+                imageUrl: 'https://img.directindustry.com/images_di/photo-mg/113435-16021740.jpg',
+                overview: "A general-purpose and more cost-effective 4-port reader from CAEN that still delivers high performance. Not typically sold on Alibaba; price is based on distributor estimates.",
                 specs: [
                     "Max Read Rate: ~700 tags/sec",
                     "Antenna Ports: 4 monostatic ports",
@@ -244,13 +257,14 @@
             { 
                 id: 5, 
                 name: 'ThingMagic IZAR', 
-                priceDisplay: '~₱96,300', 
+                priceDisplay: '~₱96,300 (Distributor)', 
                 priceValue: 96300, 
                 readRate: 750, 
                 readRange: 8, 
                 sdkSupport: 'Very Good', 
                 imageQuery: 'ThingMagic IZAR RFID reader',
-                overview: "A powerful 4-port reader highly respected in the OEM space, often integrated by other companies into their own products, which speaks to its reliability and the quality of its Mercury API.",
+                imageUrl: 'https://www.jadaktech.com/wp-content/uploads/2022/08/JADAK-ThingMagic-IZAR-Fixed-Mount-RAIN-UHF-RFID-Reader-R.jpg',
+                overview: "A powerful 4-port reader highly respected in the OEM space, often integrated into other products. Not typically sold on Alibaba; price is based on distributor estimates.",
                 specs: [
                     "Max Read Rate: ~750 tags/second",
                     "Antenna Ports: 4 monostatic ports",
@@ -264,24 +278,26 @@
             },
             { 
                 id: 6, 
-                name: 'Chafon CF-RU6401', 
-                priceDisplay: '~₱11,700', 
-                priceValue: 11700, 
-                readRate: 350, 
-                readRange: 7, 
+                name: 'CHAFON CF-H815 (E710)', 
+                priceDisplay: '₱9,274 – ₱11,246', 
+                priceValue: 10260, 
+                readRate: 900, 
+                readRange: 9, 
                 sdkSupport: 'Good', 
-                imageQuery: 'Chafon CF-RU6401 RFID reader',
-                overview: "The most budget-friendly option that provides the necessary tools for custom software development. It offers a compelling price-to-performance ratio for less critical applications.",
+                imageQuery: 'CHAFON CF-H815 RFID reader',
+                imageUrl: 'https://nwzimg.wezhan.net/contents/sitefiles3606/18032615/images/9377758.jpg',
+                overview: "A high-performance reader featuring the excellent Impinj E710 chip. At its new low price point, it offers an exceptional value proposition, delivering near top-tier read rates for a budget-friendly cost.",
                 specs: [
-                    "Max Read Rate: ~350 tags/second",
+                    "Chipset: Impinj E710",
+                    "Max Read Rate: ~900 tags/second",
                     "Antenna Ports: 4 TNC ports",
-                    "Transmit Power: Up to +30 dBm"
+                    "Transmit Power: Up to +33 dBm"
                 ],
                 integration: {
                     sdk: "Chafon SDK with C# Demo & DLL",
-                    experience: "The SDK is functional but less polished. Expect to work directly with a provided DLL and rely on the demo code for implementation details. Best for developers comfortable with direct hardware interaction."
+                    experience: "Leverages the power of the Impinj chip but is controlled via Chafon's own SDK. Expect a functional C# demo and DLL that requires more direct hardware interaction than premium SDKs."
                 },
-                useCases: "Proof-of-concept projects, non-critical inventory/asset tracking, and vehicle tracking where cost is the primary driver."
+                useCases: "Cost-effective solutions for high-volume inventory, logistics, and asset tracking where performance is key but budgets are tighter."
             }
         ];
 
@@ -336,7 +352,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-5 gap-6 pt-4 border-t">
                         <div class="md:col-span-2">
-                             <img src="https://placehold.co/600x400/EFEFEF/333333?text=${encodeURIComponent(product.imageQuery)}" alt="${product.name}" class="rounded-lg w-full object-cover">
+                             <img src="${product.imageUrl}" alt="${product.name}" class="rounded-lg w-full h-48 object-contain bg-white p-2 border" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EFEFEF/333333?text=${encodeURIComponent(product.imageQuery)}';">
                         </div>
                         <div class="md:col-span-3">
                             <h4 class="text-lg font-semibold text-gray-800">Overview</h4>
@@ -368,7 +384,10 @@
                     plugins: { legend: { display: false }, tooltip: {
                         callbacks: {
                             label: function(context) {
-                                let label = productData[context.dataIndex].name || '';
+                                // Find original index to get correct product data
+                                const originalIndex = productData.findIndex(p => p.name === context.label);
+                                if (originalIndex === -1) return '';
+                                let label = productData[originalIndex].name || '';
                                 if (label) label += ': ';
                                 if (context.parsed.x !== null) {
                                     const value = context.parsed.x;
@@ -384,20 +403,25 @@
 
         const updateChart = () => {
             if (!comparisonChart) return;
-            const config = metricConfig[currentMetric];
-            const data = productData.map(p => p[currentMetric]);
-            const labels = productData.map(p => p.name);
+            // Sort data for better visualization, but keep original productData order
+            const sortedIndices = [...productData.keys()].sort((a, b) => productData[a][currentMetric] - productData[b][currentMetric]);
+            const sortedData = sortedIndices.map(i => productData[i][currentMetric]);
+            const sortedLabels = sortedIndices.map(i => productData[i].name);
             
+            // Map the highlighted index to its new position in the sorted array
+            const sortedHighlightedIndex = sortedIndices.indexOf(highlightedIndex);
+
+            const config = metricConfig[currentMetric];
             const baseColor = 'rgba(75, 192, 192, 0.6)';
             const highlightColor = 'rgba(255, 99, 132, 0.8)';
             const baseBorderColor = 'rgba(75, 192, 192, 1)';
             const highlightBorderColor = 'rgba(255, 99, 132, 1)';
             
-            comparisonChart.data.labels = labels;
-            comparisonChart.data.datasets[0].data = data;
+            comparisonChart.data.labels = sortedLabels;
+            comparisonChart.data.datasets[0].data = sortedData;
             comparisonChart.options.scales.x.title.text = config.label;
-            comparisonChart.data.datasets[0].backgroundColor = labels.map((_, index) => index === highlightedIndex ? highlightColor : baseColor);
-            comparisonChart.data.datasets[0].borderColor = labels.map((_, index) => index === highlightedIndex ? highlightBorderColor : baseBorderColor);
+            comparisonChart.data.datasets[0].backgroundColor = sortedLabels.map((_, index) => index === sortedHighlightedIndex ? highlightColor : baseColor);
+            comparisonChart.data.datasets[0].borderColor = sortedLabels.map((_, index) => index === sortedHighlightedIndex ? highlightBorderColor : baseBorderColor);
             comparisonChart.update();
         };
 
@@ -408,22 +432,15 @@
                 highlightedIndex = index;
             }
 
-            // Update summary table highlights
             document.querySelectorAll('.summary-row').forEach((row, i) => {
-                if (i === highlightedIndex) {
-                    row.classList.add('summary-row-highlight');
-                } else {
-                    row.classList.remove('summary-row-highlight');
-                }
+                row.classList.toggle('summary-row-highlight', i === highlightedIndex);
             });
 
-            // Update product card highlights
             document.querySelectorAll('.product-card').forEach((card, i) => {
-                if (i === highlightedIndex) {
-                    card.classList.add('product-card-highlight');
+                const shouldHighlight = i === highlightedIndex;
+                card.classList.toggle('product-card-highlight', shouldHighlight);
+                if (shouldHighlight) {
                     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    card.classList.remove('product-card-highlight');
                 }
             });
 
