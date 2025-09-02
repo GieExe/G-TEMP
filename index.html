@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application presents information in a top-down format. It begins with the 'Benchmark' product (Impinj R700), followed by a new 'Top Choice' section that highlights the best value product. An 'Interactive Comparison' chart, a 'Product Summary' table, and finally 'Detailed Product Profiles' follow. This structure guides the user from a performance benchmark to a direct recommendation, then provides the tools for their own detailed exploration. -->
+    <!-- Application Structure Plan: The application presents information in a top-down format. It begins with a 'Benchmark' product, followed by a 'Top Choice' and 'Second Choice' section to provide clear recommendations. An 'Interactive Comparison' chart, a 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a performance benchmark to direct recommendations, then provides tools for their own exploration. -->
     <!-- Visualization & Content Choices: 
-        1. Benchmark/Top Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
+        1. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
         2. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
         3. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
         4. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
@@ -53,45 +53,36 @@
         
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800">C#/.NET Compatible RFID Reader Analysis</h1>
-            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs. <br><strong class="font-semibold">All prices updated based on Alibaba.com listings.</strong></p>
+            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs. <br><strong class="font-semibold">Prices based on Alibaba.com listings (Sept 2025, 1 USD ≈ 58 PHP).</strong></p>
         </header>
 
         <main>
-            <section id="benchmark" class="bg-white rounded-xl shadow-md p-8 mb-12">
+             <section id="top-choice" class="bg-indigo-50 rounded-xl shadow-md p-8 mb-12 border-2 border-indigo-200">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">The Benchmark: Impinj Speedway R700</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">This reader sets the standard for maximum performance. It is chosen for its reliability, excellent .NET SDK, and highly competitive price point when sourced from Alibaba.</p>
+                    <h2 class="text-3xl font-bold text-indigo-800 mb-2">Top Choice for Value & Flexibility</h2>
+                    <p class="text-2xl font-semibold text-gray-800">WYUAN UHF RFID Reader (Impinj E710)</p>
+                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">With its unbeatable price for an Impinj E710-powered device and flexible multi-port options (4, 8, or 16), the WYUAN reader is the top choice. It provides elite performance and scalability for demanding projects, making it the best starting point for any new C#/.NET RFID application.</p>
                 </div>
-                
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <div class="flex items-center mb-3">
-                            <span class="text-3xl mr-4">📡</span>
-                            <h3 class="text-xl font-semibold text-gray-700">Highest Interference Rejection</h3>
-                        </div>
-                        <p class="text-gray-600">Ensures accurate tag reads even in dense radio-frequency environments with nearby metal objects or other electronics, preventing data loss.</p>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                        <div class="flex items-center mb-3">
-                            <span class="text-3xl mr-4">🎯</span>
-                             <h3 class="text-xl font-semibold text-gray-700">Best-in-Class Sensitivity</h3>
-                        </div>
-                        <p class="text-gray-600">Capable of detecting and reading the most difficult-to-read tags from a distance, which eliminates missed scans and improves system efficiency.</p>
-                    </div>
+            </section>
+            
+            <section id="second-choice" class="bg-teal-50 rounded-xl shadow-md p-8 mb-12 border-2 border-teal-200">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-teal-800 mb-2">Second Choice: Proven Performer</h2>
+                    <p class="text-2xl font-semibold text-gray-800">CHAFON CF-H815 (Impinj E710)</p>
+                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">The CHAFON CF-H815 is an excellent alternative, offering nearly identical performance with its Impinj E710 chip. It's a proven and highly cost-effective reader, ideal for projects that require high-speed scanning on a tight budget. It remains one of the best value propositions on the market.</p>
                 </div>
             </section>
 
-            <section id="top-choice" class="bg-indigo-50 rounded-xl shadow-md p-8 mb-12 border-2 border-indigo-200">
+             <section id="benchmark" class="bg-white rounded-xl shadow-md p-8 mb-12">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-indigo-800 mb-2">Top Choice for Value & Performance</h2>
-                    <p class="text-2xl font-semibold text-gray-800">CHAFON CF-H815 (with Impinj E710)</p>
-                    <p class="max-w-3xl mx-auto text-gray-600 mt-4">For developers building a C#/.NET application, the CHAFON CF-H815 offers an unparalleled combination of price and performance. It utilizes the powerful Impinj E710 chip, delivering near-elite read rates (900 tags/sec) for a fraction of the cost of premium-branded readers. This makes it the ideal choice for high-performance projects on a budget.</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">The Performance Benchmark</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 mb-8">The <strong class="font-semibold">Impinj Speedway R700</strong> sets the standard for maximum performance, reliability, and SDK quality. While more expensive than the top choices, it is the go-to reader for mission-critical applications where failure is not an option.</p>
                 </div>
             </section>
             
             <section id="comparison" class="bg-white rounded-xl shadow-md p-8 mb-12">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Interactive Comparison</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Interactive Comparison of All Readers</h2>
                     <p class="max-w-3xl mx-auto text-gray-600 mb-8">Select a metric to visually compare the readers. Click on any product in the summary table or detailed list to highlight it in the chart.</p>
                 </div>
                 
@@ -298,6 +289,29 @@
                     experience: "Leverages the power of the Impinj chip but is controlled via Chafon's own SDK. Expect a functional C# demo and DLL that requires more direct hardware interaction than premium SDKs."
                 },
                 useCases: "Cost-effective solutions for high-volume inventory, logistics, and asset tracking where performance is key but budgets are tighter."
+            },
+            { 
+                id: 7, 
+                name: 'WYUAN UHF Reader (E710)', 
+                priceDisplay: '₱6,650 – ₱14,250', 
+                priceValue: 10450, 
+                readRate: 900, 
+                readRange: 9, 
+                sdkSupport: 'Good', 
+                imageQuery: 'WYUAN UHF RFID Fixed Reader',
+                imageUrl: 'https://i.imgur.com/8Qp4ZDm.jpeg',
+                overview: "The top value choice, offering the high-performance Impinj E710 chip and incredible flexibility with 4, 8, or 16-port options. This reader provides elite performance and scalability at an unbeatable price.",
+                specs: [
+                    "Chipset: Impinj E710",
+                    "Max Read Rate: ~900 tags/second",
+                    "Antenna Ports: 4, 8, or 16 TNC ports available",
+                    "Transmit Power: Up to +33 dBm"
+                ],
+                integration: {
+                    sdk: "WYUAN SDK with C# Demo & DLL",
+                    experience: "Like other budget-friendly options, expect a functional SDK with a C# demo and DLL. Integration will require more hands-on effort compared to premium brands but is very achievable for developers."
+                },
+                useCases: "The best starting point for new high-performance projects, large-scale deployments requiring many antennas, and any application needing the best performance-per-dollar."
             }
         ];
 
