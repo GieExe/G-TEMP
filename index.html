@@ -10,13 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application leads with a 'Project Starter Bundles' section, providing immediate, actionable cost estimates. This is followed by 'Top Choice' and 'Second Choice' recommendations for readers. A 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a complete system cost to individual component analysis. -->
+    <!-- Application Structure Plan: The application leads with 'Project Starter Bundles', followed by a convincing 'Why This System Will Work' section. 'Top Choice' and 'Second Choice' recommendations, a 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a complete system cost to individual component analysis. -->
     <!-- Visualization & Content Choices: 
         1. Starter Bundles -> Goal: Provide total cost estimate -> Viz/Presentation: Two side-by-side cards with itemized lists and total price (HTML/Tailwind).
-        2. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
-        3. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
-        4. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
-        5. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
+        2. Why it Works -> Goal: Convince & build confidence -> Viz/Presentation: A detailed explanatory section with clear headings.
+        3. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
+        4. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
+        5. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
+        6. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -60,39 +61,64 @@
         <main>
             <section id="starter-bundles" class="mb-12">
                 <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">Project Starter Bundles</h2>
-                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Get a complete, high-performance system by bundling a top-choice reader with essential peripherals. Prices are estimates for a single read-point setup.</p>
+                     <h2 class="text-3xl font-bold text-gray-800">Project Starter Bundles (2-Antenna Setup)</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Get a complete, high-performance system by bundling a top-choice reader with essential peripherals for two read points.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     <!-- Bundle 1: Top Choice -->
                     <div class="bg-indigo-50 rounded-xl shadow-lg p-6 border-2 border-indigo-200">
                         <h3 class="text-2xl font-bold text-indigo-800 text-center mb-4">Top Choice Bundle</h3>
                         <ul class="space-y-2 text-gray-700">
-                            <li class="flex justify-between"><span>CHAFON CF-H815 (E710)</span> <span class="font-semibold">~ ₱10,260</span></li>
-                            <li class="flex justify-between"><span>9dBi UHF Antenna</span> <span class="font-semibold">~ ₱1,900</span></li>
-                            <li class="flex justify-between"><span>LMR-240 Cable (3m)</span> <span class="font-semibold">~ ₱1,160</span></li>
-                            <li class="flex justify-between"><span>TSC TE244 + RFID Module</span> <span class="font-semibold">~ ₱29,000</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">CHAFON CF-H815 (E710)</span> <span class="font-semibold text-right">~ ₱10,260</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna 860MHz~960MHz Circular/Linear Polarization Outdoor Waterproof (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (3m, TNC FEMALE TO N MALE) (x2)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">TSC TE244 + RFID Module</span> <span class="font-semibold text-right">~ ₱29,000</span></li>
                         </ul>
                         <div class="border-t-2 border-indigo-200 my-4"></div>
                         <div class="flex justify-between items-center text-xl font-bold text-indigo-800">
                             <span>Estimated Total:</span>
-                            <span>~ ₱42,320</span>
+                            <span>~ ₱45,380</span>
                         </div>
                     </div>
                     <!-- Bundle 2: Second Choice -->
                     <div class="bg-teal-50 rounded-xl shadow-lg p-6 border-2 border-teal-200">
                          <h3 class="text-2xl font-bold text-teal-800 text-center mb-4">Second Choice Bundle</h3>
                         <ul class="space-y-2 text-gray-700">
-                           <li class="flex justify-between"><span>WYUAN UHF Reader (E710)</span> <span class="font-semibold">~ ₱10,450</span></li>
-                            <li class="flex justify-between"><span>9dBi UHF Antenna</span> <span class="font-semibold">~ ₱1,900</span></li>
-                            <li class="flex justify-between"><span>LMR-240 Cable (3m)</span> <span class="font-semibold">~ ₱1,160</span></li>
-                            <li class="flex justify-between"><span>TSC TE244 + RFID Module</span> <span class="font-semibold">~ ₱29,000</span></li>
+                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF Reader (E710)</span> <span class="font-semibold text-right">~ ₱10,450</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna 860MHz~960MHz Circular/Linear Polarization Outdoor Waterproof (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (3m, TNC FEMALE TO N MALE) (x2)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">TSC TE244 + RFID Module</span> <span class="font-semibold text-right">~ ₱29,000</span></li>
                         </ul>
                         <div class="border-t-2 border-teal-200 my-4"></div>
                         <div class="flex justify-between items-center text-xl font-bold text-teal-800">
                             <span>Estimated Total:</span>
-                            <span>~ ₱42,510</span>
+                            <span>~ ₱45,570</span>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="why-it-works" class="bg-gray-50 rounded-xl shadow-md p-8 mb-12">
+                 <div class="text-center mb-6">
+                     <h2 class="text-3xl font-bold text-gray-800">Guaranteed Success: Why This System Will Work</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">This isn't just a list of parts; it's a complete, synergistic system designed to eliminate common failures and ensure your project is successful from day one.</p>
+                </div>
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold text-gray-700">1. The Core: Industry-Leading Technology</h3>
+                        <p class="text-gray-600 mt-1">Both recommended readers (CHAFON and WYUAN) are built around the <strong class="font-semibold text-gray-800">Impinj E710 chip</strong>. This is the "engine" that powers many of the world's most expensive RFID readers. By choosing this bundle, you get the performance and reliability of an elite, industry-leading chip without the premium brand price tag. This de-risks the most critical part of your system.</p>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold text-gray-700">2. Professional-Grade Peripherals</h3>
+                        <p class="text-gray-600 mt-1">An RFID system is only as strong as its weakest link. We've specifically chosen components that prevent common performance issues:</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1 pl-4">
+                            <li><strong>9dBi Circular Antenna:</strong> Provides excellent read range and, crucially, reads tags regardless of their orientation—a common failure point in document and asset tracking.</li>
+                            <li><strong>Low-Loss LMR-240 Cable:</strong> Using cheap cables can kill your read range. LMR-240 is a professional-grade cable that ensures maximum power is delivered from the reader to the antenna, maximizing performance.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700">3. A Complete, Developer-Ready Workflow</h3>
+                        <p class="text-gray-600 mt-1">This bundle is designed for a custom C# application. The readers provide functional SDKs with C# demos (as shown in the code example). The included <strong class="font-semibold text-gray-800">TSC TE244 printer with its RFID module</strong> completes the workflow, allowing your WPF application to not only track tags but also to encode and print new RFID labels on demand. You have full control over the entire lifecycle of your assets.</p>
                     </div>
                 </div>
             </section>
