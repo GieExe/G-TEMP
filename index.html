@@ -10,14 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application leads with 'Project Starter Bundles', followed by a convincing 'Why This System Will Work' section. 'Top Choice' and 'Second Choice' recommendations, a 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure guides the user from a complete system cost to individual component analysis. -->
+    <!-- Application Structure Plan: The application leads with 'Project Starter Bundles', then a 'Where to Buy' section with direct links, a 'Printer Choice' explanation, and a 'Why This System Will Work' section. 'Top Choice' and 'Second Choice' reader recommendations, a 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure provides a complete purchasing and decision-making workflow. -->
     <!-- Visualization & Content Choices: 
-        1. Starter Bundles -> Goal: Provide total cost estimate -> Viz/Presentation: Two side-by-side cards with itemized lists and total price (HTML/Tailwind).
+        1. Starter Bundles / Where to Buy / Printer Choice -> Goal: Provide actionable purchasing info -> Viz/Presentation: Clearly defined cards and text sections (HTML/Tailwind).
         2. Why it Works -> Goal: Convince & build confidence -> Viz/Presentation: A detailed explanatory section with clear headings.
-        3. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind). -> Interaction: Static.
-        4. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js). -> Interaction: A dropdown filters the chart metric. Clicking a summary table row or a product card below highlights its bar.
-        5. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators. -> Interaction: Clicking a row highlights it and syncs with the chart and detailed cards below.
-        6. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind). -> Interaction: Clicking a card highlights it and syncs with the chart and summary table.
+        3. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind).
+        4. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js).
+        5. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators.
+        6. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind).
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -70,14 +70,14 @@
                         <h3 class="text-2xl font-bold text-indigo-800 text-center mb-4">Top Choice Bundle</h3>
                         <ul class="space-y-2 text-gray-700">
                             <li class="flex justify-between items-start"><span class="flex-1 pr-2">CHAFON CF-H815 (E710)</span> <span class="font-semibold text-right">~ ₱10,260</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna 860MHz~960MHz Circular/Linear Polarization Outdoor Waterproof (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (3m, TNC FEMALE TO N MALE) (x2)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">TSC TE244 + RFID Module</span> <span class="font-semibold text-right">~ ₱29,000</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (x2) (3m)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">Xprinter XP-H500BR RFID</span> <span class="font-semibold text-right">~ ₱20,300</span></li>
                         </ul>
                         <div class="border-t-2 border-indigo-200 my-4"></div>
                         <div class="flex justify-between items-center text-xl font-bold text-indigo-800">
                             <span>Estimated Total:</span>
-                            <span>~ ₱45,380</span>
+                            <span>~ ₱36,680</span>
                         </div>
                     </div>
                     <!-- Bundle 2: Second Choice -->
@@ -85,16 +85,51 @@
                          <h3 class="text-2xl font-bold text-teal-800 text-center mb-4">Second Choice Bundle</h3>
                         <ul class="space-y-2 text-gray-700">
                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF Reader (E710)</span> <span class="font-semibold text-right">~ ₱10,450</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna 860MHz~960MHz Circular/Linear Polarization Outdoor Waterproof (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (3m, TNC FEMALE TO N MALE) (x2)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">TSC TE244 + RFID Module</span> <span class="font-semibold text-right">~ ₱29,000</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (x2) (3m)</span> <span class="font-semibold text-right">~ ₱2,320</span></li>
+                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">Xprinter XP-H500BR RFID</span> <span class="font-semibold text-right">~ ₱20,300</span></li>
                         </ul>
                         <div class="border-t-2 border-teal-200 my-4"></div>
                         <div class="flex justify-between items-center text-xl font-bold text-teal-800">
                             <span>Estimated Total:</span>
-                            <span>~ ₱45,570</span>
+                            <span>~ ₱36,870</span>
                         </div>
                     </div>
+                </div>
+            </section>
+            
+            <section id="where-to-buy" class="bg-white rounded-xl shadow-md p-8 mb-12">
+                 <div class="text-center mb-6">
+                     <h2 class="text-3xl font-bold text-gray-800">Where to Buy Components</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Direct links to purchase the recommended bundle components. Prices and availability are subject to change.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 max-w-5xl mx-auto">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-800">CHAFON CF-H815 (E710) Reader</p>
+                        <a href="https://www.alibaba.com/product-detail/CHAFON-EVEN-CF815-IMPINJ-E710-UHF_1601008220107.html" target="_blank" class="text-indigo-600 hover:underline break-words">View on Alibaba.com</a>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-800">WYUAN UHF RFID Antenna</p>
+                        <a href="https://www.alibaba.com/product-detail/WYUAN-UHF-RFID-Antenna-860MHz-960MHz_1601207728143.html" target="_blank" class="text-indigo-600 hover:underline break-words">View on Alibaba.com</a>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-800">Xprinter XP-H500BR RFID Printer</p>
+                        <a href="https://www.xprintertech.com/xp-h500br-rfid-printer" target="_blank" class="text-indigo-600 hover:underline break-words">View on Xprintertech.com</a>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="font-semibold text-gray-800">LMR-240 TNC to N Cable</p>
+                        <a href="https://www.alibaba.com/product-detail/Lmr240-50Ohm-Rf-Coaxial-Cable-N_1600887219265.html" target="_blank" class="text-indigo-600 hover:underline break-words">View on Alibaba.com (or other RF cable suppliers)</a>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="printer-choice" class="bg-white rounded-xl shadow-md p-8 mb-12">
+                 <div class="text-center mb-6">
+                     <h2 class="text-3xl font-bold text-gray-800">The Printer Choice: Xprinter XP-H500BR</h2>
+                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">An RFID printer doesn't just print labels; it <strong class="font-semibold">encodes data onto the RFID chip inside the label</strong>. This is essential for a complete asset tracking workflow controlled by your C# application.</p>
+                </div>
+                <div class="max-w-4xl mx-auto text-center">
+                    <p class="text-gray-600 mt-1">The <strong class="font-semibold">Xprinter XP-H500BR</strong> is the recommended choice as it provides a cost-effective, all-in-one solution. It's a reliable thermal transfer printer that comes with the UHF RFID read/write module pre-installed. It provides all the necessary functionality for most inventory and asset management tasks without the high cost of premium brands, aligning perfectly with the value-oriented readers in the bundles.</p>
                 </div>
             </section>
 
@@ -111,14 +146,19 @@
                     <div class="mb-4">
                         <h3 class="text-xl font-semibold text-gray-700">2. Professional-Grade Peripherals</h3>
                         <p class="text-gray-600 mt-1">An RFID system is only as strong as its weakest link. We've specifically chosen components that prevent common performance issues:</p>
-                        <ul class="list-disc list-inside mt-2 space-y-1 pl-4">
+                        <ul class="list-disc list-inside mt-2 space-y-2 pl-4">
                             <li><strong>9dBi Circular Antenna:</strong> Provides excellent read range and, crucially, reads tags regardless of their orientation—a common failure point in document and asset tracking.</li>
-                            <li><strong>Low-Loss LMR-240 Cable:</strong> Using cheap cables can kill your read range. LMR-240 is a professional-grade cable that ensures maximum power is delivered from the reader to the antenna, maximizing performance.</li>
+                            <li><strong>Low-Loss Coaxial Cable:</strong> Using cheap cables can kill your read range. We recommend:
+                                <ul class="list-['–'] list-inside mt-1 pl-4">
+                                    <li><strong>LMR-240:</strong> Excellent for standard runs up to 10 meters (30 ft).</li>
+                                    <li class="font-semibold"><strong>LMR-400 (Upgrade):</strong> Required for longer runs (>10m) to minimize signal loss and maintain maximum read range.</li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-700">3. A Complete, Developer-Ready Workflow</h3>
-                        <p class="text-gray-600 mt-1">This bundle is designed for a custom C# application. The readers provide functional SDKs with C# demos (as shown in the code example). The included <strong class="font-semibold text-gray-800">TSC TE244 printer with its RFID module</strong> completes the workflow, allowing your WPF application to not only track tags but also to encode and print new RFID labels on demand. You have full control over the entire lifecycle of your assets.</p>
+                        <p class="text-gray-600 mt-1">This bundle is designed for a custom C# application. The readers provide functional SDKs with C# demos. The included <strong class="font-semibold text-gray-800">Xprinter XP-H500BR</strong> with its built-in RFID module completes the workflow, allowing your WPF application to not only track tags but also to encode and print new RFID labels on demand. You have full control over the entire lifecycle of your assets.</p>
                     </div>
                 </div>
             </section>
