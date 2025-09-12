@@ -111,13 +111,13 @@
             </div>
             <p class="text-xl text-gray-600 mt-2">Desktop Application Development Progress</p>
             <p class="text-md text-gray-500 mt-1">Purpose: To track a document's location and department transit within the building.</p>
-            <p class="text-sm text-gray-400 mt-4 font-medium">Last Updated: Friday, September 12, 2025 - 9:49 AM PHT</p>
+            <p class="text-sm text-gray-400 mt-4 font-medium">Last Updated: Friday, September 12, 2025 - 9:55 AM PHT</p>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
             <!-- Overall Progress Card -->
             <div class="lg:col-span-3 card p-6 flex flex-col sm:flex-row items-center justify-center gap-8 text-center sm:text-left">
-                <div class="pie" data-progress="47" style="--p:47;">47%</div>
+                <div class="pie" data-progress="38" style="--p:38;">38%</div>
                 <div>
                     <h2 class="text-2xl font-bold text-gray-800">Overall Project Progress</h2>
                     <p class="text-gray-600 mt-1">Project is progressing steadily, with backend foundations and UI mockups largely complete. The next major phase involves hardware assembly and core feature implementation.</p>
@@ -172,19 +172,51 @@
                      <svg class="w-8 h-8 text-green-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.25 0H12M8 12a4 4 0 118 0 4 4 0 01-8 0z" /></svg>
                     <h2 class="text-xl font-semibold">Backend & Database</h2>
                 </div>
-                <div class="space-y-5">
-                    <div>
-                        <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Database Schema & Integration</span><span class="text-sm font-bold text-green-600">Complete</span></div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="progress-bar bg-green-500 h-2.5 rounded-full" data-progress="100"></div></div>
-                        <p class="text-xs mt-1 text-gray-500">All tables (Users, Documents, Activity, etc.) are implemented. Schema subject to minor changes.</p>
-                    </div>
-                    <div>
+                <div class="space-y-4">
+                     <div>
                         <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Page Functionality</span><span class="text-sm font-bold text-green-600">1 / 7</span></div>
                         <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="progress-bar bg-green-500 h-2.5 rounded-full" data-progress="14.3"></div></div>
                         <ul class="text-xs text-gray-500 mt-2 space-y-1">
                              <li><span class="status-dot status-complete mr-1.5"></span><span class="font-semibold">Login Page:</span> Authentication logic is complete.</li>
                              <li><span class="status-dot status-pending mr-1.5"></span><span class="font-semibold">Pending:</span> Core RFID service, Document CRUD, Dashboard data feed, Reports engine, Admin controls.</li>
                         </ul>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Database Schema & Integration</span><span class="text-sm font-bold text-green-600">Mostly Complete</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="progress-bar bg-green-500 h-2.5 rounded-full" data-progress="90"></div></div>
+                        <p class="text-xs mt-2 text-gray-500">Core schema is implemented, but is subject to change. Both MSSQL (offline) & Supabase (online) are ready.</p>
+                        
+                        <!-- Table Details -->
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                           <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">Users</h4>
+                                <p class="text-gray-600">Stores user credentials, roles (admin/user), and profile info.</p>
+                           </div>
+                           <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">TrackedDocument</h4>
+                                <p class="text-gray-600">Contains info for each document (e.g., RFID Tag ID, name, description).</p>
+                           </div>
+                           <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">Location</h4>
+                                <p class="text-gray-600">Defines physical locations where readers are installed (e.g., "Main Entrance").</p>
+                           </div>
+                            <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">Department</h4>
+                                <p class="text-gray-600">Lists all departments within the building (e.g., "Accounting", "HR").</p>
+                           </div>
+                            <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">RFIDReader</h4>
+                                <p class="text-gray-600">Details for each reader device (e.g., IP address, assigned Location).</p>
+                           </div>
+                           <div class="p-3 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold text-gray-700">Antenna</h4>
+                                <p class="text-gray-600">Details for each antenna connected to a specific reader and its port.</p>
+                           </div>
+                           <div class="p-3 bg-blue-50 border-blue-200 rounded-lg border md:col-span-2">
+                                <h4 class="font-bold text-blue-800">Activity</h4>
+                                <p class="text-blue-700">The main log table. Records every read event, linking a document to a location and reader with a timestamp.</p>
+                           </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -301,5 +333,4 @@
     </script>
 </body>
 </html>
-
 
