@@ -3,658 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RFID Reader Comparison Tool</title>
+    <title>TrackPoint - Development Progress</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Tech -->
-    <!-- Application Structure Plan: The application leads with 'Project Starter Bundles', then a 'Where to Buy' section with direct links, a 'Printer Choice' explanation, and a 'Why This System Will Work' section. 'Top Choice' recommendations, 'In-Depth Technical Specifications' for all components, a 'Performance Benchmark', 'Interactive Comparison' chart, 'Product Summary' table, and 'Detailed Product Profiles' follow. This structure provides a complete purchasing and decision-making workflow. -->
-    <!-- Visualization & Content Choices: 
-        1. Starter Bundles / Where to Buy / Printer Choice -> Goal: Provide actionable purchasing info -> Viz/Presentation: Clearly defined cards and text sections (HTML/Tailwind).
-        2. Why it Works / In-Depth Specs -> Goal: Convince & build confidence with technical data -> Viz/Presentation: A detailed explanatory section with clear headings and tables.
-        3. Benchmark/Top/Second Choice -> Goal: Inform & Recommend -> Viz/Presentation: Distinctly styled feature cards (HTML/Tailwind).
-        4. Product Comparison -> Goal: Compare -> Viz/Presentation: A dynamic horizontal bar chart (Chart.js).
-        5. Summary Table -> Goal: Scan & Compare -> Viz/Presentation: An HTML table with key performance indicators.
-        6. Detailed Product Info -> Goal: Explore Details -> Viz/Presentation: A series of detailed "product cards" (HTML/Tailwind).
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4;
-            color: #4a4a4a;
+            background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
+        .progress-bar {
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 500px;
-            }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .product-card-highlight, .summary-row-highlight {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-            border-color: rgba(59, 130, 246, 0.7);
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        .summary-row-highlight {
-            background-color: #eff6ff;
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
         }
-        .spec-table td {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+        .status-complete { background-color: #22c55e; }
+        .status-incomplete { background-color: #ef4444; }
+        .status-in-progress { background-color: #f59e0b; }
+        .status-pending { background-color: #64748b; }
+
+
+        @property --p{
+          syntax: '<number>';
+          inherits: true;
+          initial-value: 0;
         }
-        .spec-table tr:not(:last-child) {
-            border-bottom: 1px solid #e5e7eb;
+        .pie {
+          --p: 0;
+          --b: 22px;
+          --c: #2563eb;
+          --w: 150px;
+          width: var(--w);
+          aspect-ratio: 1;
+          position: relative;
+          display: inline-grid;
+          margin: 5px;
+          place-content: center;
+          font-size: 25px;
+          font-weight: bold;
+          font-family: sans-serif;
+          transition: --p 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pie:before,
+        .pie:after {
+          content: "";
+          position: absolute;
+          border-radius: 50%;
+        }
+        .pie:before {
+          inset: 0;
+          background:
+            radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+            conic-gradient(var(--c) calc(var(--p)*1%), #e2e8f0 0);
+          -webkit-mask: radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+                  mask: radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            bottom: -5px;
+            width: 2px;
+            background-color: #cbd5e1;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -1px;
+            top: 5px;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            border: 3px solid #fff;
         }
     </style>
 </head>
-<body class="antialiased">
-
-    <div class="container mx-auto p-4 sm:p-6 md:p-8">
-        
+<body class="antialiased text-gray-800 p-4 sm:p-6 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header Section -->
         <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-800">C#/.NET Compatible RFID Reader Analysis</h1>
-            <p class="text-lg text-gray-600 mt-2">Comparing Professional-Grade Fixed Readers with Developer-Friendly SDKs. <br><strong class="font-semibold">Prices based on Alibaba.com listings (Sept 2025, 1 USD ≈ 58 PHP).</strong></p>
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <svg class="w-12 h-12 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/>
+                    <path d="M12 3V21" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/>
+                    <path d="M3 12H21" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/>
+                </svg>
+                <h1 class="text-5xl font-extrabold text-gray-900">TrackPoint</h1>
+            </div>
+            <p class="text-xl text-gray-600 mt-2">Desktop Application Development Progress</p>
+            <p class="text-md text-gray-500 mt-1">Purpose: To track a document's location and department transit within the building.</p>
+            <p class="text-sm text-gray-400 mt-4 font-medium">Last Updated: Friday, September 12, 2025 - 9:17 AM PHT</p>
         </header>
 
-        <main>
-            <section id="starter-bundles" class="mb-12">
-                <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">Project Starter Bundles (2-Antenna Setup)</h2>
-                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Get a complete, high-performance system by bundling a top-choice reader with essential peripherals for two read points.</p>
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Overall Progress Card -->
+            <div class="lg:col-span-3 card p-6 flex flex-col sm:flex-row items-center justify-center gap-8 text-center sm:text-left">
+                <div class="pie" data-progress="47" style="--p:47;">47%</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Overall Project Progress</h2>
+                    <p class="text-gray-600 mt-1">Project is progressing steadily, with backend foundations and UI mockups largely complete. The next major phase involves hardware assembly and core feature implementation.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    <!-- Bundle 1: Top Choice -->
-                    <div class="bg-indigo-50 rounded-xl shadow-lg p-6 border-2 border-indigo-200">
-                        <h3 class="text-2xl font-bold text-indigo-800 text-center mb-4">Top Choice Bundle</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">CHAFON CF-H815 (E710) (WIFI)</span> <span class="font-semibold text-right">~ ₱10,260</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (x2)<em class="block text-xs text-gray-500 not-italic">(3m, RP-TNC Male to N-Type Male)</em></span> <span class="font-semibold text-right">~ ₱2,320</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">Xprinter XP-H500BR RFID</span> <span class="font-semibold text-right">~ ₱20,300</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2">TP-Link TL-POE160S PoE+ Injector</span> <span class="font-semibold text-right">~ ₱1,250</span></li>
-                             <li class="flex justify-between items-start"><span class="flex-1 pr-2">CAT6 Ethernet Cable (10m)</span> <span class="font-semibold text-right">~ ₱250</span></li>
-                            <li class="flex justify-between items-start"><span class="flex-1 pr-2 text-gray-500">Alien Higgs 9 UHF Stickers (Paper, EPC 96 Bit User 688 bit)</span> <span class="font-semibold text-right text-gray-500">Varies</span></li>
+            </div>
+
+            <!-- UI/UX Development Card -->
+            <div class="card p-6">
+                <div class="flex items-center mb-4">
+                    <svg class="w-8 h-8 text-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c.251.023.501.05.75.082a.75.75 0 01.75.75v5.714a2.25 2.25 0 00.659 1.591L14.25 14.5M9.75 3.104a2.25 2.25 0 00-2.25 2.25v4.5a2.25 2.25 0 002.25 2.25M19.5 10.5c0 2.298-1.79 4.148-4 4.491l-1.5 1.5a2.25 2.25 0 01-3.182 0l-1.5-1.5a4.5 4.5 0 01-4-4.491V6.75a2.25 2.25 0 012.25-2.25h10.5a2.25 2.25 0 012.25 2.25v3.75z" /></svg>
+                    <h2 class="text-xl font-semibold">UI/UX Development</h2>
+                </div>
+                <div class="space-y-5">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-medium">Unique Pages UI</span>
+                            <span class="text-sm font-bold text-blue-600">6 / 7</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="progress-bar bg-blue-600 h-2.5 rounded-full" data-progress="85.7"></div>
+                        </div>
+                        <ul class="text-xs text-gray-500 mt-2 grid grid-cols-2 gap-1">
+                            <li><span class="status-dot status-complete mr-1.5"></span>Login</li>
+                            <li><span class="status-dot status-complete mr-1.5"></span>Dashboard</li>
+                            <li><span class="status-dot status-complete mr-1.5"></span>Documents List</li>
+                            <li><span class="status-dot status-complete mr-1.5"></span>Document Detail</li>
+                            <li><span class="status-dot status-complete mr-1.5"></span>Activity Log</li>
+                            <li><span class="status-dot status-complete mr-1.5"></span>Reports</li>
+                            <li><span class="status-dot status-incomplete mr-1.5"></span>Settings</li>
                         </ul>
-                        <div class="border-t-2 border-indigo-200 my-4"></div>
-                        <div class="flex justify-between items-center text-xl font-bold text-indigo-800">
-                            <span>Estimated Hardware Total:</span>
-                            <span>~ ₱38,180</span>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm font-medium">Design Integration</span>
+                            <span class="text-sm font-bold text-blue-600">2 / 7</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="progress-bar bg-blue-600 h-2.5 rounded-full" data-progress="28.5"></div>
+                        </div>
+                         <ul class="text-xs text-gray-500 mt-2">
+                             <li><span class="status-dot status-complete mr-1.5"></span>Login</li>
+                             <li><span class="status-dot status-in-progress mr-1.5"></span>Dashboard (Needs refining)</li>
+                             <li><span class="status-dot status-pending mr-1.5"></span>All other pages pending</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backend & Database Card -->
+            <div class="card p-6 lg:col-span-2">
+                 <div class="flex items-center mb-4">
+                     <svg class="w-8 h-8 text-green-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.25 0H12M8 12a4 4 0 118 0 4 4 0 01-8 0z" /></svg>
+                    <h2 class="text-xl font-semibold">Backend & Database</h2>
+                </div>
+                <div class="space-y-5">
+                    <div>
+                        <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Database Schema & Integration</span><span class="text-sm font-bold text-green-600">Complete</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="progress-bar bg-green-500 h-2.5 rounded-full" data-progress="100"></div></div>
+                        <p class="text-xs mt-1 text-gray-500">All tables (Users, Documents, Activity, etc.) are implemented. Schema subject to minor changes.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Page Functionality</span><span class="text-sm font-bold text-green-600">1 / 7</span></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="progress-bar bg-green-500 h-2.5 rounded-full" data-progress="14.3"></div></div>
+                        <ul class="text-xs text-gray-500 mt-2 space-y-1">
+                             <li><span class="status-dot status-complete mr-1.5"></span><span class="font-semibold">Login Page:</span> Authentication logic is complete.</li>
+                             <li><span class="status-dot status-pending mr-1.5"></span><span class="font-semibold">Pending:</span> Core RFID service, Document CRUD, Dashboard data feed, Reports engine, Admin controls.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hardware Card -->
+            <div class="card p-6 lg:col-span-3">
+                 <div class="flex items-center mb-4">
+                    <svg class="w-8 h-8 text-purple-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V8.25a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 8.25v7.5A2.25 2.25 0 006.75 18z" /></svg>
+                    <h2 class="text-xl font-semibold">Hardware Management</h2>
+                </div>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <h3 class="font-semibold mb-2 text-purple-800">Readers & Injectors</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>WYUAN UHF RFID Fixed Reader (4,8,16 Ports)</span> <span class="font-medium text-red-600">Pending</span></div>
+                            <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>CHAFON EVEN CF815 Fixed Reader</span> <span class="font-medium text-red-600">Pending</span></div>
+                            <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>Chafon H105 Handheld Reader</span> <span class="font-medium text-red-600">Pending</span></div>
+                            <div class="p-3 bg-green-50 rounded-lg border border-green-200 flex justify-between items-center"><span>Cybertech TP-Link TL-POE160S PoE+ Injector</span> <span class="font-medium text-green-600">Delivered</span></div>
                         </div>
                     </div>
-                    <!-- Bundle 2: Second Choice -->
-                    <div class="bg-teal-50 rounded-xl shadow-lg p-6 border-2 border-teal-200">
-                         <h3 class="text-2xl font-bold text-teal-800 text-center mb-4">Second Choice Bundle</h3>
-                        <ul class="space-y-2 text-gray-700">
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF Reader (E710)</span> <span class="font-semibold text-right">~ ₱10,450</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">WYUAN UHF RFID Antenna (x2)</span> <span class="font-semibold text-right">~ ₱3,800</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">LMR-240 Cable (x2)<em class="block text-xs text-gray-500 not-italic">(3m, RP-TNC Male to N-Type Male)</em></span> <span class="font-semibold text-right">~ ₱2,320</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">Xprinter XP-H500BR RFID</span> <span class="font-semibold text-right">~ ₱20,300</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">TP-Link TL-POE160S PoE+ Injector</span> <span class="font-semibold text-right">~ ₱1,250</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2">CAT6 Ethernet Cable (10m)</span> <span class="font-semibold text-right">~ ₱250</span></li>
-                           <li class="flex justify-between items-start"><span class="flex-1 pr-2 text-gray-500">Alien Higgs 9 UHF Stickers</span> <span class="font-semibold text-right text-gray-500">Varies</span></li>
-                        </ul>
-                        <div class="border-t-2 border-teal-200 my-4"></div>
-                        <div class="flex justify-between items-center text-xl font-bold text-teal-800">
-                            <span>Estimated Hardware Total:</span>
-                            <span>~ ₱38,370</span>
+                    <div>
+                        <h3 class="font-semibold mb-2 text-purple-800">Antennas, Tags & Cabling</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                           <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>WYUAN UHF RFID Antenna (9dBi)</span> <span class="font-medium text-red-600">Pending</span></div>
+                           <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>UHF RFID Label Sticker Tags</span> <span class="font-medium text-red-600">Pending</span></div>
+                           <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>CAT6 /CAT6E Ethernet Cable</span> <span class="font-medium text-red-600">Pending</span></div>
+                           <div class="p-3 bg-gray-50 rounded-lg border flex justify-between items-center"><span>Coaxial Connectors (RP-TNC, LMR-240)</span> <span class="font-medium text-red-600">Pending</span></div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+
+             <!-- Software Roadmap -->
+            <div class="lg:col-span-3 card p-6">
+                 <div class="flex items-center mb-4">
+                    <svg class="w-8 h-8 text-cyan-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+                    <h2 class="text-xl font-semibold text-gray-800">Software Development Roadmap</h2>
+                </div>
+                <ul class="space-y-3 text-gray-700 text-sm">
+                    <li class="flex items-start"><span class="font-bold text-cyan-600 mr-2 mt-0.5">1.</span><div><span class="font-semibold">Core Tracking Service:</span> Develop the background service to listen to RFID readers and automatically log document movements to the `Activity` table.</div></li>
+                    <li class="flex items-start"><span class="font-bold text-cyan-600 mr-2 mt-0.5">2.</span><div><span class="font-semibold">Document Management:</span> Implement full CRUD (Create, Read, Update, Delete) functionality for documents and display their detailed activity history.</div></li>
+                    <li class="flex items-start"><span class="font-bold text-cyan-600 mr-2 mt-0.5">3.</span><div><span class="font-semibold">Dashboard Integration:</span> Connect the dashboard UI to the database to display live, real-time tracking data and statistics.</div></li>
+                    <li class="flex items-start"><span class="font-bold text-cyan-600 mr-2 mt-0.5">4.</span><div><span class="font-semibold">Admin Panel:</span> Build the 'Settings' page functionality for administrators to manage users, locations, and departments.</div></li>
+                     <li class="flex items-start"><span class="font-bold text-cyan-600 mr-2 mt-0.5">5.</span><div><span class="font-semibold">Reporting Engine:</span> Create the backend logic to generate and export custom reports based on the tracking data.</div></li>
+                </ul>
+            </div>
             
-            <section id="where-to-buy" class="bg-white rounded-xl shadow-md p-8 mb-12">
-                 <div class="text-center mb-6">
-                     <h2 class="text-3xl font-bold text-gray-800">Where to Buy Components</h2>
-                     <p class="max-w-3xl mx-auto text-gray-600 mt-2">Direct links to purchase the recommended bundle components. Prices and availability are subject to change.</p>
+            <!-- Hardware Integration Timeline -->
+            <div class="lg:col-span-3 card p-6">
+                 <div class="flex items-center mb-4">
+                    <svg class="w-8 h-8 text-indigo-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M12 12.75h.008v.008H12v-.008z" /></svg>
+                    <h2 class="text-xl font-semibold text-gray-800">Hardware Integration Timeline</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 max-w-5xl mx-auto">
-                    <div>
-                        <p class="font-semibold text-gray-800">CHAFON CF-H815 (E710) Reader</p>
-                        <a href="https://www.alibaba.com/product-detail/CHAFON-EVEN-CF815-IMPINJ-E710-UHF_1601008220107.html" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">Option 1: Alibaba (CHAFON Official)</a><br>
+                 <div class="relative pl-5 text-sm">
+                    <!-- Phase 1 -->
+                    <div class="timeline-item pb-8">
+                        <div class="timeline-dot bg-orange-400"></div>
+                        <h4 class="font-semibold">Phase 1: Procurement & Bench Testing</h4>
+                        <p class="text-xs text-gray-500 mb-1">Target: Now - End of Oct 2025</p>
+                        <p class="text-gray-600">Finalize orders for all remaining hardware. Use delivered components to write a simple test application and confirm basic tag reads.</p>
                     </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">WYUAN UHF RFID Antenna</p>
-                        <a href="https://www.alibaba.com/product-detail/WYUAN-UHF-RFID-Antenna-860MHz-960MHz_1601207728143.html" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">Option 1: Alibaba (WYUAN Official)</a><br>
+                    <!-- Phase 2 -->
+                    <div class="timeline-item pb-8">
+                        <div class="timeline-dot bg-gray-400"></div>
+                        <h4 class="font-semibold">Phase 2: Assembly & Standalone Testing</h4>
+                        <p class="text-xs text-gray-500 mb-1">Target: Nov 2025</p>
+                        <p class="text-gray-600">Assemble one complete unit (Reader, Antennas, Cabling) and test in a controlled environment to create a reliable "golden setup".</p>
                     </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">Xprinter XP-H500BR RFID Printer</p>
-                        <a href="https://www.xprintertech.com/xp-h500br-rfid-printer" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">Option 1: Xprinter Official Site (Inquiry)</a><br>
+                    <!-- Phase 3 -->
+                    <div class="timeline-item pb-8">
+                        <div class="timeline-dot bg-gray-400"></div>
+                        <h4 class="font-semibold">Phase 3: Initial Software Integration</h4>
+                        <p class="text-xs text-gray-500 mb-1">Target: Dec 2025 - Jan 2026</p>
+                        <p class="text-gray-600">Develop the "Hardware-Software Bridge" service. Connect the golden setup to the network and get the service to log a tag read in the database automatically.</p>
                     </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">LMR-240 (RP-TNC Male to N-Type Male)</p>
-                        <a href="https://www.alibaba.com/product-detail/Manufacturer-LMR195-LMR200-LMR240-LMR400-LMR600_1601198470670.html" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">Option 1: Alibaba (Custom Cable Supplier)</a><br>
+                    <!-- Phase 4 -->
+                    <div class="timeline-item pb-8">
+                        <div class="timeline-dot bg-gray-400"></div>
+                        <h4 class="font-semibold">Phase 4: Physical Installation & Site Survey</h4>
+                        <p class="text-xs text-gray-500 mb-1">Target: Feb 2026</p>
+                        <p class="text-gray-600">Conduct a site survey to determine optimal installation points. Physically mount and network the hardware at pilot locations.</p>
                     </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">TP-Link TL-POE160S PoE+ Injector</p>
-                        <a href="https://www.lazada.com.ph/products/tp-link-tl-poe160s-poe-injector-i2188144717.html" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">Option 1: Lazada.com.ph (TP-Link LazMall)</a><br>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">Alien Higgs 9 UHF RFID Labels</p>
-                        <a href="https://www.alibaba.com/product-detail/RFID-860-960MHz-Thermal-Transfer-Printable_1600708907104.html" target="_blank" class="text-sm text-indigo-600 hover:underline break-words">View on Alibaba.com (HUAYUAN Store)</a>
-                    </div>
-                </div>
-            </section>
-
-            <section id="why-it-works" class="bg-gray-50 rounded-xl shadow-md p-8 mb-12">
-                 <div class="text-center mb-6">
-                     <h2 class="text-3xl font-bold text-gray-800">Guaranteed Success: Why This System Will Work</h2>
-                </div>
-                <div class="max-w-4xl mx-auto">
-                    <div class="mb-4">
-                        <h3 class="text-xl font-semibold text-gray-700">1. The Core: Industry-Leading Technology</h3>
-                        <p class="text-gray-600 mt-1">Both recommended readers are built around the <strong class="font-semibold text-gray-800">Impinj E710 chip</strong>. This is the "engine" that powers many of the world's most expensive RFID readers. You get elite performance and reliability without the premium brand price tag.</p>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="text-xl font-semibold text-gray-700">2. Professional-Grade Peripherals</h3>
-                        <p class="text-gray-600 mt-1">The system uses components that prevent common performance issues:</p>
-                        <ul class="list-disc list-inside mt-2 space-y-2 pl-4">
-                            <li><strong>9dBi Circular Antenna:</strong> Provides excellent read range and reads tags regardless of their orientation.</li>
-                            <li><strong>Low-Loss Coaxial Cable:</strong> LMR-240 is recommended for runs up to 10m. For longer distances, an upgrade to LMR-400 is essential.</li>
-                        </ul>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="text-xl font-semibold text-gray-700">3. Flexible Power & Placement (PoE+)</h3>
-                        <p class="text-gray-600 mt-1">The <strong class="font-semibold text-gray-800">TP-Link PoE+ Injector</strong> is essential for a professional installation. It sends power and data over a single Ethernet cable, allowing you to place the reader in the optimal location for RF performance, not just where a plug is available.</p>
-                    </div>
-                     <div class="mb-4">
-                        <h3 class="text-xl font-semibold text-gray-700">4. Reliable Connectivity</h3>
-                        <p class="text-gray-600 mt-1">A high-quality <strong class="font-semibold text-gray-800">CAT5e or CAT6 Ethernet cable</strong> is required to connect the PoE+ injector to the reader. This single cable provides the stable data link for your C# application and delivers reliable power from the injector.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-700">5. A Complete, Developer-Ready Workflow</h3>
-                        <p class="text-gray-600 mt-1">The readers provide functional SDKs with C# demos. The <strong class="font-semibold text-gray-800">Xprinter XP-H500BR</strong> (with its RFID module) and the <strong class="font-semibold text-gray-800">Alien Higgs 9 labels</strong> complete the workflow, allowing your WPF application to not only track existing tags but also to encode and print new ones on demand.</p>
+                     <!-- Phase 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot bg-gray-400"></div>
+                        <h4 class="font-semibold">Phase 5: Full System End-to-End Testing</h4>
+                        <p class="text-xs text-gray-500 mb-1">Target: Mar 2026</p>
+                        <p class="text-gray-600">Perform real-world tests by carrying tagged documents through monitored doorways to confirm real-time updates in the application.</p>
                     </div>
                 </div>
-            </section>
-             
-            <section id="reader-choices" class="mb-12">
-                <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">Individual Reader Recommendations</h2>
-                </div>
-                <div class="bg-indigo-50 rounded-xl shadow-md p-8 mb-8 border-2 border-indigo-200">
-                    <h3 class="text-2xl font-bold text-indigo-800 mb-2">Top Choice: CHAFON CF-H815 (Impinj E710)</h3>
-                    <p class="text-gray-600">A proven performer that offers an unparalleled combination of price and high-end performance. It utilizes the powerful Impinj E710 chip to deliver elite read rates (900 tags/sec) for a fraction of the cost of premium brands, making it the ideal choice for high-performance projects on a budget.</p>
-                </div>
-                <div class="bg-teal-50 rounded-xl shadow-md p-8 mb-8 border-2 border-teal-200">
-                    <h3 class="text-2xl font-bold text-teal-800 mb-2">Second Choice: WYUAN UHF Reader (Impinj E710)</h3>
-                    <p class="text-gray-600">An excellent alternative with nearly identical performance. Its key advantage is the availability of multi-port options (4, 8, or 16), making it a highly flexible and cost-effective solution for projects that may need to scale up the number of antennas.</p>
-                </div>
-             </section>
-             
-            <section id="tech-specs" class="bg-white rounded-xl shadow-md p-8 mb-12">
-                <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">In-Depth Technical Specifications</h2>
-                </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <!-- CHAFON Specs -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-indigo-800 mb-4 text-center">CHAFON CF-H815 Reader</h3>
-                        <table class="w-full text-sm text-left text-gray-600 spec-table">
-                            <tbody>
-                                <tr><td class="font-semibold w-1/3">RF Chip</td><td>Impinj E710</td></tr>
-                                <tr><td class="font-semibold">Protocol</td><td>EPC C1G2 / ISO18000-6C</td></tr>
-                                <tr><td class="font-semibold">Read Rate</td><td>~900 tags/second</td></tr>
-                                <tr><td class="font-semibold">Antenna Ports</td><td>4 x RP-TNC female</td></tr>
-                                <tr><td class="font-semibold">Interfaces</td><td>TCP/IP (RJ45), RS232, Wi-Fi</td></tr>
-                                <tr><td class="font-semibold">Power Supply</td><td>DC 12V / 3A or PoE+</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- WYUAN Specs -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-teal-800 mb-4 text-center">WYUAN UHF Reader</h3>
-                         <table class="w-full text-sm text-left text-gray-600 spec-table">
-                            <tbody>
-                                <tr><td class="font-semibold w-1/3">RF Chip</td><td>Impinj E710</td></tr>
-                                <tr><td class="font-semibold">Protocol</td><td>EPC C1G2 / ISO18000-6C</td></tr>
-                                <tr><td class="font-semibold">Read Rate</td><td>~900 tags/second</td></tr>
-                                <tr><td class="font-semibold">Antenna Ports</td><td>4, 8, or 16 x RP-TNC female</td></tr>
-                                <tr><td class="font-semibold">Interfaces</td><td>TCP/IP (RJ45), RS232, USB</td></tr>
-                                <tr><td class="font-semibold">Power Supply</td><td>DC 12V / 4A or PoE+</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                     <!-- Peripheral Specs -->
-                    <div>
-                         <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Bundle Peripherals</h3>
-                         <div class="mb-4">
-                            <h4 class="font-bold text-gray-700">WYUAN UHF Antenna</h4>
-                             <table class="w-full text-sm text-left text-gray-600 spec-table">
-                                <tbody>
-                                    <tr><td class="font-semibold w-1/3">Gain</td><td>9 dBi</td></tr>
-                                    <tr><td class="font-semibold">Polarization</td><td>Circular (RHCP)</td></tr>
-                                    <tr><td class="font-semibold">Connector</td><td>N-Type Female</td></tr>
-                                    <tr><td class="font-semibold">Dimensions</td><td>258 x 258 x 35 mm</td></tr>
-                                </tbody>
-                            </table>
-                         </div>
-                         <div class="mb-4">
-                             <h4 class="font-bold text-gray-700">Xprinter XP-H500BR</h4>
-                             <table class="w-full text-sm text-left text-gray-600 spec-table">
-                                <tbody>
-                                    <tr><td class="font-semibold w-1/3">Method</td><td>Thermal Transfer</td></tr>
-                                    <tr><td class="font-semibold">RFID Module</td><td>UHF Read/Write (Built-in)</td></tr>
-                                    <tr><td class="font-semibold">Commands</td><td>TSPL, ESC/POS</td></tr>
-                                </tbody>
-                            </table>
-                         </div>
-                         <div>
-                             <h4 class="font-bold text-gray-700">Alien Higgs 9 Labels</h4>
-                             <table class="w-full text-sm text-left text-gray-600 spec-table">
-                                <tbody>
-                                    <tr><td class="font-semibold w-1/3">Chip</td><td>Alien Higgs 9</td></tr>
-                                    <tr><td class="font-semibold">Memory</td><td>EPC 96 bit, User 688 bits</td></tr>
-                                    <tr><td class="font-semibold">Material</td><td>Paper (Printable)</td></tr>
-                                </tbody>
-                            </table>
-                         </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="comparison" class="bg-white rounded-xl shadow-md p-8 mb-12">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Interactive Comparison of Other Readers</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 mt-2">While the recommended bundles offer the best value, the following readers are also available. Use the tools below to compare them.</p>
-                </div>
-                
-                <div class="flex justify-center items-center mb-6 space-x-4">
-                    <label for="metricSelector" class="font-semibold text-gray-700">Compare by:</label>
-                    <select id="metricSelector" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="priceValue" selected>Price (PHP)</option>
-                        <option value="readRate">Read Rate (tags/sec)</option>
-                        <option value="readRange">Read Range (m)</option>
-                    </select>
-                </div>
-
-                <div class="chart-container">
-                    <canvas id="comparisonChart"></canvas>
-                </div>
-            </section>
-
-            <section id="product-details">
-                <div class="text-center mb-8">
-                     <h2 class="text-3xl font-bold text-gray-800">Product Summary & Detailed Profiles</h2>
-                </div>
-                
-                <div class="overflow-x-auto mb-12 bg-white rounded-xl shadow-md">
-                    <table class="min-w-full divide-y divide-gray-200" id="summaryTable">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PHP, Alibaba)</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">.NET SDK</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Rate (tags/sec)</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Read Range (m)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="productList" class="space-y-8">
-                </div>
-            </section>
+            </div>
         </main>
+
+        <footer class="text-center mt-12 text-sm text-gray-500">
+            <p>TrackPoint Project | Quezon City, Metro Manila, Philippines</p>
+            <p class="text-xs text-gray-400 mt-1">This is an auto-generated infographic. Data is current as of the date specified above.</p>
+        </footer>
     </div>
-
     <script>
-        const productData = [
-            { 
-                id: 0, 
-                name: 'Impinj Speedway R700', 
-                priceDisplay: '₱22,040 – ₱30,160', 
-                priceValue: 26100, 
-                readRate: 1100, 
-                readRange: 10, 
-                sdkSupport: 'Excellent', 
-                imageQuery: 'Impinj Speedway R700 RFID reader',
-                imageUrl: 'https://www.cisper.com/public/data/image/article/982/4122/large/impinj-r700-rain-rfid-reader-fcc-gx.jpg?v=325824f65e7a7179fd8f9b7d9eaadb06',
-                overview: "The R700 is the industry's gold standard for high-performance readers. Sourced from Alibaba, its price becomes exceptionally competitive, offering unmatched performance and reliability for mission-critical applications.",
-                specs: [
-                    "Max Read Rate: Up to 1,100 tags/second",
-                    "Antenna Ports: 4 monostatic ports (RP-TNC)",
-                    "Transmit Power: Up to +32.5 dBm",
-                    "Connectivity: Gigabit Ethernet, USB Host & Device",
-                    "Power: Power over Ethernet (PoE+)",
-                    "Key Feature: Best-in-class interference rejection"
-                ],
-                integration: {
-                    sdk: "Impinj Octane SDK for .NET",
-                    experience: "A mature, robust, and well-documented SDK. It provides a high-level, event-driven API (`TagsReported` event) that makes it very easy to integrate into a WPF application. Also supports low-level LLRP control."
-                },
-                useCases: "High-volume inventory, complex document/asset tracking, and any application where missed reads would cause operational failure."
-            },
-            { 
-                id: 1, 
-                name: 'Zebra FX9600', 
-                priceDisplay: '₱69,600 – ₱87,000', 
-                priceValue: 78300, 
-                readRate: 1000, 
-                readRange: 9, 
-                sdkSupport: 'Excellent', 
-                imageQuery: 'Zebra FX9600 RFID reader',
-                imageUrl: 'https://www.zebra.com/content/dam/zebra_dam/global/zcom-web-production/web-production-photography/web001/fx9600-right-facing-3x2-3600.jpg',
-                overview: "A direct competitor to Impinj, the FX9600 is built with a focus on ruggedness and durability for harsh industrial environments, delivering exceptional performance for high-volume applications.",
-                specs: [
-                    "Max Read Rate: ~1,000 tags/second",
-                    "Antenna Ports: 4-port and 8-port models available",
-                    "Transmit Power: Up to +33 dBm",
-                    "Durability: IP53 sealed housing",
-                    "Power: PoE+ or external DC power"
-                ],
-                integration: {
-                    sdk: "Zebra RFID SDK for .NET",
-                    experience: "A comprehensive, well-structured SDK with ample C# sample code. A major advantage is its support for Zebra's entire RFID device range, providing a unified development experience if you expand to handhelds."
-                },
-                useCases: "Warehouse and logistics management, manufacturing/WIP tracking, and yard management where the reader may be exposed to the elements."
-            },
-            { 
-                id: 2, 
-                name: 'Alien ALR-F800-X', 
-                priceDisplay: '₱63,800 – ₱81,200', 
-                priceValue: 72500, 
-                readRate: 950, 
-                readRange: 9, 
-                sdkSupport: 'Very Good', 
-                imageQuery: 'Alien ALR-F800-X RFID reader',
-                imageUrl: 'https://www.alientechnology.com/wp-content/uploads/F800-01.jpg',
-                overview: "A powerful, enterprise-grade 4-port reader known for its flexibility and rich feature set, including a Linux-based OS that allows simple applications to run directly on the reader ('autonomous mode').",
-                specs: [
-                    "Max Read Rate: ~950 tags/second",
-                    "Antenna Ports: 4 monostatic ports",
-                    "Onboard Processing: Linux-based OS",
-                    "Connectivity: LAN, USB Host & Console, Serial"
-                ],
-                integration: {
-                    sdk: "Alien RFID Gateway SDK for .NET",
-                    experience: "Offers both a simple-to-use 'TagStream' event for basic apps and a detailed, command-based API for advanced control. Extensive documentation and code samples are available."
-                },
-                useCases: "Large-scale supply chain, retail inventory management, smart portals, and IT asset tracking."
-            },
-            { 
-                id: 3, 
-                name: 'CAEN Proton R4320P', 
-                priceDisplay: '~₱96,700 (Distributor)', 
-                priceValue: 96700, 
-                readRate: 800, 
-                readRange: 8, 
-                sdkSupport: 'Very Good', 
-                imageQuery: 'CAEN Proton RFID reader',
-                imageUrl: 'https://rfid.it/157-large_default/r4320p-proton-industrial-4-port-rain-rfid-reader.jpg',
-                overview: "A high-tech, precision-engineered reader from Italy, specifically designed to excel in dense reader environments. Not typically sold on Alibaba; price is based on distributor estimates.",
-                specs: [
-                    "Max Read Rate: ~800 tags/sec",
-                    "Antenna Ports: 4 monostatic ports",
-                    "Key Feature: Excellent 'Dense Reader Mode' performance",
-                ],
-                integration: {
-                    sdk: "CAEN RFID SDK for .NET",
-                    experience: "Provides powerful .NET libraries (DLLs). The SDK is more 'engineering-focused' than others, requiring a closer read of technical manuals but offering very fine control over reader operations."
-                },
-                useCases: "Smart shelves, pharmaceutical tracking, and any application with many read points in a small area."
-            },
-            { 
-                id: 4, 
-                name: 'CAEN Quattro R4321P', 
-                priceDisplay: '₱59k – ₱84k (Distributor)', 
-                priceValue: 71550, 
-                readRate: 700, 
-                readRange: 7, 
-                sdkSupport: 'Very Good',
-                imageQuery: 'CAEN Quattro RFID reader',
-                imageUrl: 'https://img.directindustry.com/images_di/photo-mg/113435-16021740.jpg',
-                overview: "A general-purpose and more cost-effective 4-port reader from CAEN that still delivers high performance. Not typically sold on Alibaba; price is based on distributor estimates.",
-                specs: [
-                    "Max Read Rate: ~700 tags/sec",
-                    "Antenna Ports: 4 monostatic ports",
-                ],
-                integration: {
-                    sdk: "CAEN RFID SDK for .NET",
-                    experience: "Uses the same powerful but engineering-focused .NET SDK as other CAEN readers, providing deep control for developers."
-                },
-                useCases: "High-performance access control portals, document tracking, and retail applications."
-            },
-            { 
-                id: 5, 
-                name: 'ThingMagic IZAR', 
-                priceDisplay: '~₱96,300 (Distributor)', 
-                priceValue: 96300, 
-                readRate: 750, 
-                readRange: 8, 
-                sdkSupport: 'Very Good', 
-                imageQuery: 'ThingMagic IZAR RFID reader',
-                imageUrl: 'https://www.jadaktech.com/wp-content/uploads/2022/08/JADAK-ThingMagic-IZAR-Fixed-Mount-RAIN-UHF-RFID-Reader-R.jpg',
-                overview: "A powerful 4-port reader highly respected in the OEM space, often integrated into other products. Not typically sold on Alibaba; price is based on distributor estimates.",
-                specs: [
-                    "Max Read Rate: ~750 tags/second",
-                    "Antenna Ports: 4 monostatic ports",
-                    "Key Feature: Powered by the versatile Mercury API"
-                ],
-                integration: {
-                    sdk: "Mercury API for .NET",
-                    experience: "The Mercury API is renowned for being consistent, powerful, and well-documented, offering a great balance of simplicity and control. Many developers consider it one of the best in the industry."
-                },
-                useCases: "Integration into custom hardware (smart cabinets, kiosks), baggage handling, or any project where a flexible software interface is a top priority."
-            },
-            { 
-                id: 6, 
-                name: 'CHAFON CF-H815 (E710)', 
-                priceDisplay: '₱9,274 – ₱11,246', 
-                priceValue: 10260, 
-                readRate: 900, 
-                readRange: 9, 
-                sdkSupport: 'Good', 
-                imageQuery: 'CHAFON CF-H815 RFID reader',
-                imageUrl: 'https://nwzimg.wezhan.net/contents/sitefiles3606/18032615/images/9377758.jpg',
-                overview: "A high-performance reader featuring the excellent Impinj E710 chip. At its new low price point, it offers an exceptional value proposition, delivering near top-tier read rates for a budget-friendly cost.",
-                specs: [
-                    "Chipset: Impinj E710",
-                    "Max Read Rate: ~900 tags/second",
-                    "Antenna Ports: 4 RP-TNC female",
-                    "Transmit Power: Up to +33 dBm",
-                    "Connectivity: Wi-Fi, TCP/IP"
-                ],
-                integration: {
-                    sdk: "Chafon SDK with C# Demo & DLL",
-                    experience: "Leverages the power of the Impinj chip but is controlled via Chafon's own SDK. Expect a functional C# demo and DLL that requires more direct hardware interaction than premium SDKs."
-                },
-                useCases: "Cost-effective solutions for high-volume inventory, logistics, and asset tracking where performance is key but budgets are tighter."
-            },
-            { 
-                id: 7, 
-                name: 'WYUAN UHF Reader (E710)', 
-                priceDisplay: '₱6,650 – ₱14,250', 
-                priceValue: 10450, 
-                readRate: 900, 
-                readRange: 9, 
-                sdkSupport: 'Good', 
-                imageQuery: 'WYUAN UHF RFID Fixed Reader',
-                imageUrl: 'https://s.alicdn.com/@sc04/kf/H50496fb47558421c8ea9c8f757a6fb6eY.jpg_960x960q80.jpg',
-                overview: "The top value choice, offering the high-performance Impinj E710 chip and incredible flexibility with 4, 8, or 16-port options. This reader provides elite performance and scalability at an unbeatable price.",
-                specs: [
-                    "Chipset: Impinj E710",
-                    "Max Read Rate: ~900 tags/second",
-                    "Antenna Ports: 4, 8, or 16 RP-TNC female",
-                    "Transmit Power: Up to +33 dBm"
-                ],
-                integration: {
-                    sdk: "WYUAN SDK with C# Demo & DLL",
-                    experience: "Like other budget-friendly options, expect a functional SDK with a C# demo and DLL. Integration will require more hands-on effort compared to premium brands but is very achievable for developers."
-                },
-                useCases: "The best starting point for new high-performance projects, large-scale deployments requiring many antennas, and any application needing the best performance-per-dollar."
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate linear progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
+            setTimeout(() => {
+                progressBars.forEach(bar => {
+                    const progress = bar.getAttribute('data-progress');
+                    bar.style.width = progress + '%';
+                });
+            }, 100);
+
+            // Animate pie chart
+            const pieChart = document.querySelector('.pie');
+            if (pieChart) {
+                setTimeout(() => {
+                    const progress = pieChart.getAttribute('data-progress');
+                    pieChart.style.setProperty('--p', progress);
+                }, 100);
             }
-        ];
-
-        let comparisonChart;
-        let currentMetric = 'priceValue';
-        let highlightedIndex = -1;
-
-        const metricConfig = {
-            priceValue: { label: 'Average Price (PHP)', unit: '₱' },
-            readRate: { label: 'Read Rate (tags/sec)', unit: ' tags/sec' },
-            readRange: { label: 'Read Range (m)', unit: ' m' }
-        };
-        
-        const populateSummaryTable = () => {
-            const tableBody = document.querySelector('#summaryTable tbody');
-            tableBody.innerHTML = '';
-            productData.forEach((product, index) => {
-                const row = document.createElement('tr');
-                row.className = 'summary-row cursor-pointer hover:bg-gray-100 transition-colors duration-200';
-                row.dataset.index = index;
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">${product.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.priceDisplay}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 font-medium">${product.sdkSupport}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.readRate.toLocaleString()}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${product.readRange}</td>
-                `;
-                row.addEventListener('click', () => handleProductSelection(index));
-                tableBody.appendChild(row);
-            });
-        };
-
-        const populateProductList = () => {
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '';
-            productData.forEach((product, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card bg-white rounded-xl shadow-md p-6 border-2 border-transparent transition-all duration-300 cursor-pointer';
-                card.dataset.index = index;
-                card.id = `product-card-${index}`;
-                card.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-2xl font-bold text-gray-800">${product.name}</h3>
-                            <p class="text-lg font-semibold text-indigo-600">${product.priceDisplay}</p>
-                        </div>
-                        <div class="text-sm mt-3 sm:mt-0 sm:text-right bg-gray-50 p-2 rounded-md border">
-                            <p><strong>.NET SDK Support:</strong> <span class="font-semibold text-gray-700">${product.sdkSupport}</span></p>
-                            <p><strong>Read Rate:</strong> ~${product.readRate.toLocaleString()} tags/sec</p>
-                            <p><strong>Read Range:</strong> ~${product.readRange} m</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 pt-4 border-t">
-                        <div class="md:col-span-2">
-                             <img src="${product.imageUrl}" alt="${product.name}" class="rounded-lg w-full h-48 object-contain bg-white p-2 border" onerror="this.onerror=null;this.src='https://placehold.co/600x400/EFEFEF/333333?text=${encodeURIComponent(product.imageQuery)}';">
-                        </div>
-                        <div class="md:col-span-3">
-                            <h4 class="text-lg font-semibold text-gray-800">Overview</h4>
-                            <p class="mt-1 text-gray-600 mb-4">${product.overview}</p>
-                            <h4 class="text-lg font-semibold text-gray-800">Key Specifications</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-600 mt-1 mb-4">
-                                ${product.specs.map(spec => `<li>${spec}</li>`).join('')}
-                            </ul>
-                            <h4 class="text-lg font-semibold text-gray-800">C# / .NET Integration</h4>
-                             <p class="mt-1 text-gray-600"><strong class="text-gray-700">SDK:</strong> ${product.integration.sdk}</p>
-                            <p class="mt-1 text-gray-600">${product.integration.experience}</p>
-                             <h4 class="text-lg font-semibold text-gray-800 mt-4">Ideal Use Cases</h4>
-                            <p class="mt-1 text-gray-600">${product.useCases}</p>
-                        </div>
-                    </div>
-                `;
-                card.addEventListener('click', () => handleProductSelection(index));
-                productList.appendChild(card);
-            });
-        };
-        
-        const createChart = () => {
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
-            comparisonChart = new Chart(ctx, {
-                type: 'bar', data: { labels: [], datasets: [{ data: [] }] },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    scales: { x: { beginAtZero: true, title: { display: true, text: '' } } },
-                    plugins: { legend: { display: false }, tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                // Find original index to get correct product data
-                                const originalIndex = productData.findIndex(p => p.name === context.label);
-                                if (originalIndex === -1) return '';
-                                let label = productData[originalIndex].name || '';
-                                if (label) label += ': ';
-                                if (context.parsed.x !== null) {
-                                    const value = context.parsed.x;
-                                    label += (currentMetric === 'priceValue') ? `₱${value.toLocaleString()}` : `${value.toLocaleString()}${metricConfig[currentMetric].unit}`;
-                                }
-                                return label;
-                            }
-                        }
-                    }}
-                }
-            });
-        };
-
-        const updateChart = () => {
-            if (!comparisonChart) return;
-            // Sort data for better visualization, but keep original productData order
-            const sortedIndices = [...productData.keys()].sort((a, b) => productData[a][currentMetric] - productData[b][currentMetric]);
-            const sortedData = sortedIndices.map(i => productData[i][currentMetric]);
-            const sortedLabels = sortedIndices.map(i => productData[i].name);
-            
-            // Map the highlighted index to its new position in the sorted array
-            const sortedHighlightedIndex = sortedIndices.indexOf(highlightedIndex);
-
-            const config = metricConfig[currentMetric];
-            const baseColor = 'rgba(75, 192, 192, 0.6)';
-            const highlightColor = 'rgba(255, 99, 132, 0.8)';
-            const baseBorderColor = 'rgba(75, 192, 192, 1)';
-            const highlightBorderColor = 'rgba(255, 99, 132, 1)';
-            
-            comparisonChart.data.labels = sortedLabels;
-            comparisonChart.data.datasets[0].data = sortedData;
-            comparisonChart.options.scales.x.title.text = config.label;
-            comparisonChart.data.datasets[0].backgroundColor = sortedLabels.map((_, index) => index === sortedHighlightedIndex ? highlightColor : baseColor);
-            comparisonChart.data.datasets[0].borderColor = sortedLabels.map((_, index) => index === sortedHighlightedIndex ? highlightBorderColor : baseBorderColor);
-            comparisonChart.update();
-        };
-
-        const handleProductSelection = (index) => {
-            if (highlightedIndex === index) {
-                highlightedIndex = -1; // Toggle off
-            } else {
-                highlightedIndex = index;
-            }
-
-            document.querySelectorAll('.summary-row').forEach((row, i) => {
-                row.classList.toggle('summary-row-highlight', i === highlightedIndex);
-            });
-
-            document.querySelectorAll('.product-card').forEach((card, i) => {
-                const shouldHighlight = i === highlightedIndex;
-                card.classList.toggle('product-card-highlight', shouldHighlight);
-                if (shouldHighlight) {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            });
-
-            updateChart();
-        };
-
-        document.getElementById('metricSelector').addEventListener('change', (e) => {
-            currentMetric = e.target.value;
-            updateChart();
         });
-
-        window.onload = () => {
-            populateSummaryTable();
-            populateProductList();
-            createChart();
-            updateChart();
-        };
     </script>
-
 </body>
 </html>
 
